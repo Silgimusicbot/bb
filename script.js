@@ -2,9 +2,9 @@
 const config = {
     githubUsername: "SENIN_GITHUB_ADIN", // GitHub istifadəçi adın
     repoName: "REPO_ADIN",              // Repozitoriyanın adı
-    startDate: "2023-01-01T00:00:00",
-    meetingCount: 15,
-    musicTitle: "Cəmaləm Üçün"
+    startDate: "2025-08-03T00:00:00",
+    meetingCount: 83,
+    musicTitle: "Gözlərin dəydi gözümə🤍"
 };
 // =================================================
 
