@@ -54,19 +54,19 @@
         <section class="music-player">
             <div class="player-card">
                 <div class="cover-art">
-                    <img src="assets/music-cover.jpg" alt="Music Cover" id="track-art">
+                    <img src="assets/music-cover.jpg" alt="Cover" id="track-art">
                 </div>
                 <div class="track-info">
-                    <h4 id="track-name">Bizim Mahnımız</h4>
+                    <h4 id="track-name">Cəmaləm Üçün</h4>
                     <div class="progress-container">
                         <span id="curr-time">00:00</span>
-                        <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+                        <input type="range" min="0" max="100" value="0" class="seek_slider">
                         <span id="total-duration">00:00</span>
                     </div>
                     <div class="controls">
                         <div class="volume-box">
                             <i class="fa fa-volume-down"></i>
-                            <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
+                            <input type="range" min="0" max="100" value="80" class="volume_slider">
                             <i class="fa fa-volume-up"></i>
                         </div>
                         <button class="play-btn" onclick="playpauseTrack()">
@@ -76,6 +76,7 @@
                 </div>
             </div>
         </section>
+
 
         <section class="links-section">
             <h3>Cəmalə üçün</h3>
