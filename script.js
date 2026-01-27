@@ -1,173 +1,102 @@
-// ================= KONFİQURASİYA =================
 const config = {
     githubUsername: "Silgimusicbot", 
     repoName: "bb",              
-    startDate: "2025-08-03T00:00:00", // Sayğacın başlama tarixi
-    meetingCount: 83,                  // Görüş sayı
+    startDate: "2025-08-03T00:00:00",    
+    meetingCount: 83,                    
     musicTitle: "Cəmaləm Üçün"
 };
-// =================================================
 
 const audio = document.getElementById('music-file');
 const playBtn = document.querySelector('.play-btn');
 const seekSlider = document.querySelector('.seek_slider');
 const volumeSlider = document.querySelector('.volume_slider');
-const currTimeText = document.getElementById('curr-time');
-const totalDurText = document.getElementById('total-duration');
 const trackArt = document.getElementById('track-art');
 
 let allImages = []; 
 let currentImgIdx = 0;
-let isPlaying = false;
 
-// 1. Sayt açılan kimi işləməli olanlar
 document.addEventListener('DOMContentLoaded', () => {
-    // Görüş sayını HTML-ə yaz
-    const meetEl = document.getElementById('meet-count');
-    if(meetEl) meetEl.innerText = config.meetingCount;
-
-    // Taymeri başlat
+    document.getElementById('meet-count').innerText = config.meetingCount;
     updateCounter();
     setInterval(updateCounter, 1000);
 });
 
-// 2. Giriş Düyməsi (Xoş gəldin ekranını keçmək)
 document.getElementById('enter-btn').addEventListener('click', () => {
     document.getElementById('welcome-screen').style.display = 'none';
     document.getElementById('main-content').classList.remove('hidden');
-    
-    // Şəkilləri GitHub-dan çək
     fetchImages();
-    
-    // Musiqini başlat
-    if (audio) {
-        audio.play().then(() => {
-            isPlaying = true;
-            if(trackArt) trackArt.classList.add('playing');
-            const icon = playBtn.querySelector('i');
-            if(icon) icon.classList.replace('fa-play-circle', 'fa-pause-circle');
-        }).catch(e => console.log("Musiqi avtomatik başlatma bloklandı."));
-    }
+    audio.play().catch(() => console.log("Musiqi üçün klik lazımdır"));
+    trackArt.classList.add('playing');
+    playBtn.querySelector('i').classList.replace('fa-play-circle', 'fa-pause-circle');
 });
 
-// 3. Zaman Sayğacı Funksiyası
 function updateCounter() {
-    const start = new Date(config.startDate).getTime();
-    const now = new Date().getTime();
-    const diff = now - start;
-
-    if (isNaN(diff)) return;
-
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-    if(document.getElementById('days')) document.getElementById('days').innerText = d;
-    if(document.getElementById('hours')) document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
-    if(document.getElementById('minutes')) document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
-    if(document.getElementById('seconds')) document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+    const diff = new Date() - new Date(config.startDate);
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff / 3600000) % 24);
+    const m = Math.floor((diff / 60000) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+    document.getElementById('days').innerText = d;
+    document.getElementById('hours').innerText = h < 10 ? '0'+h : h;
+    document.getElementById('minutes').innerText = m < 10 ? '0'+m : m;
+    document.getElementById('seconds').innerText = s < 10 ? '0'+s : s;
 }
 
-// 4. GitHub Qalereya Funksiyası
 async function fetchImages() {
     const stack = document.getElementById('gallery-stack');
-    if(!stack) return;
-
-    const url = `https://api.github.com/repos/${config.githubUsername}/${config.repoName}/contents/gallery`;
-    
     try {
-        const response = await fetch(url);
-        const files = await response.json();
+        const res = await fetch(`https://api.github.com/repos/${config.githubUsername}/${config.repoName}/contents/gallery`);
+        const files = await res.json();
+        allImages = files.filter(f => f.name.match(/\.(jpg|jpeg|png|webp)$/i));
         
-        // Şəkil formatlarını seçirik
-        allImages = files.filter(f => f.name.match(/\.(jpg|jpeg|png|webp|gif)$/i));
-
         if(allImages.length > 0) {
-            let html = '';
-            // Son 4 şəkli mərkəzdə stack kimi göstər
-            allImages.slice(-4).forEach((img, idx) => {
-                html += `<img src="${img.download_url}" class="stack-item" style="z-index:${idx}">`;
-            });
-            stack.innerHTML = html;
-            
-            // Üstünə basanda animasiyalı Lightbox aç
+            stack.innerHTML = allImages.slice(-3).map((img, i) => 
+                `<img src="${img.download_url}" class="stack-item" style="z-index:${i}">`
+            ).join('');
             stack.onclick = () => openLightbox(allImages.length - 1);
         }
-    } catch (e) {
-        console.error("Qalereya xətası:", e);
-    }
+    } catch (e) { console.error(e); }
 }
 
-// 5. Lightbox (Şəkil böyütmə və dəyişmə)
 function openLightbox(index) {
+    currentImgIdx = index;
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
-    if(!lb || !lbImg) return;
-
-    currentImgIdx = index;
     lbImg.src = allImages[currentImgIdx].download_url;
-    
-    lb.classList.add('active'); // CSS animasiyasını tətikləyir
-    lb.style.display = 'flex';
+    lb.classList.add('active');
 
-    // Bağlamaq üçün
-    document.querySelector('.close-lightbox').onclick = () => {
-        lb.classList.remove('active');
-        lb.style.display = 'none';
-    };
-
-    // Sağa-sola dəyişmək
     document.getElementById('next-btn').onclick = (e) => { e.stopPropagation(); changeImage(1); };
     document.getElementById('prev-btn').onclick = (e) => { e.stopPropagation(); changeImage(-1); };
-    
-    // Boş yerə basanda bağlansın
-    lb.onclick = (e) => { if(e.target === lb) { lb.style.display = 'none'; lb.classList.remove('active'); } };
+    document.querySelector('.close-lightbox').onclick = () => lb.classList.remove('active');
+    lb.onclick = (e) => { if(e.target === lb) lb.classList.remove('active'); };
 }
 
 function changeImage(step) {
     currentImgIdx = (currentImgIdx + step + allImages.length) % allImages.length;
-    const lbImg = document.getElementById('lightbox-img');
-    lbImg.style.opacity = "0"; // Keçid animasiyası
-    setTimeout(() => {
-        lbImg.src = allImages[currentImgIdx].download_url;
-        lbImg.style.opacity = "1";
-    }, 200);
+    document.getElementById('lightbox-img').src = allImages[currentImgIdx].download_url;
 }
 
-// 6. Musiqi Player Funksiyaları
 function playpauseTrack() {
     if (audio.paused) {
         audio.play();
-        if(trackArt) trackArt.classList.add('playing');
+        trackArt.classList.add('playing');
         playBtn.querySelector('i').classList.replace('fa-play-circle', 'fa-pause-circle');
     } else {
         audio.pause();
-        if(trackArt) trackArt.classList.remove('playing');
+        trackArt.classList.remove('playing');
         playBtn.querySelector('i').classList.replace('fa-pause-circle', 'fa-play-circle');
     }
 }
 
-if(audio) {
-    audio.ontimeupdate = () => {
-        if (audio.duration) {
-            seekSlider.value = (audio.currentTime / audio.duration) * 100;
-            currTimeText.innerText = formatTime(audio.currentTime);
-            totalDurText.innerText = formatTime(audio.duration);
-        }
-    };
-    
-    function formatTime(sec) {
-        let m = Math.floor(sec / 60);
-        let s = Math.floor(sec % 60);
-        return (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
-    }
-}
+audio.ontimeupdate = () => {
+    seekSlider.value = (audio.currentTime / audio.duration) * 100 || 0;
+    document.getElementById('curr-time').innerText = formatTime(audio.currentTime);
+    document.getElementById('total-duration').innerText = formatTime(audio.duration || 0);
+};
 
-if(seekSlider) {
-    seekSlider.oninput = () => { audio.currentTime = (seekSlider.value / 100) * audio.duration; };
-}
-
-if(volumeSlider) {
-    volumeSlider.oninput = () => { audio.volume = volumeSlider.value / 100; };
+seekSlider.oninput = () => audio.currentTime = (seekSlider.value / 100) * audio.duration;
+volumeSlider.oninput = () => audio.volume = volumeSlider.value / 100;
+function formatTime(s) {
+    let m = Math.floor(s/60), sec = Math.floor(s%60);
+    return (m<10?'0'+m:m)+":"+(sec<10?'0'+sec:sec);
 }
