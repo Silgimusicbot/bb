@@ -99,41 +99,59 @@ async function fetchImages() {
     }
 }
 
-// 1. Şəkli dəyişmək üçün əsas funksiya
+// 1. Şəkli dəyişmək funksiyası
 function changeImage(step) {
-    // Növbəti indeksin hesablanması (Siyahı bitəndə başa qayıdır)
-    currentImgIdx = (currentImgIdx + step + allImages.length) % allImages.length;
+    if (allImages.length === 0) return;
     
+    currentImgIdx = (currentImgIdx + step + allImages.length) % allImages.length;
     const lbImg = document.getElementById('lightbox-img');
     
-    // Keçid animasiyası (yox olub-açılma)
-    lbImg.style.opacity = "0.5";
-    setTimeout(() => {
-        lbImg.src = allImages[currentImgIdx].download_url;
-        lbImg.style.opacity = "1";
-    }, 100);
+    if (lbImg) {
+        lbImg.style.opacity = "0"; // Keçid effekti
+        setTimeout(() => {
+            lbImg.src = allImages[currentImgIdx].download_url;
+            lbImg.style.opacity = "1";
+        }, 150);
+    }
 }
 
-// 2. Lightbox açılarkən düymələri aktiv edən hissə
+// 2. Lightbox-u açmaq funksiyası
 function openLightbox(index) {
-    currentImgIdx = index;
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
-    
+    const nBtn = document.getElementById('next-btn');
+    const pBtn = document.getElementById('prev-btn');
+
+    if (!lb || !lbImg) {
+        console.error("Lightbox və ya Şəkil elementi tapılmadı! HTML-i yoxla.");
+        return;
+    }
+
+    currentImgIdx = index;
     lbImg.src = allImages[currentImgIdx].download_url;
-    lb.style.display = 'flex'; // Lightbox-u göstər
+    
+    // Lightbox-u göstər
+    lb.style.display = "flex";
+    lb.classList.add('active');
 
-    // DÜYMƏLƏRƏ FUNKSİYA VERİLMƏSİ
-    document.getElementById('next-btn').onclick = (e) => {
-        e.stopPropagation(); // Lightbox-un bağlanmasını önləyir
-        changeImage(1);
-    };
+    // Düymələr mövcuddursa funksiya təyin et
+    if (nBtn) {
+        nBtn.onclick = (e) => { e.stopPropagation(); changeImage(1); };
+    }
+    if (pBtn) {
+        pBtn.onclick = (e) => { e.stopPropagation(); changeImage(-1); };
+    }
 
-    document.getElementById('prev-btn').onclick = (e) => {
-        e.stopPropagation();
-        changeImage(-1);
-    };
+    // Bağlamaq funksiyası
+    const closeBtn = document.querySelector('.close-lightbox');
+    if (closeBtn) {
+        closeBtn.onclick = () => {
+            lb.style.display = "none";
+            lb.classList.remove('active');
+        };
+    }
 }
+
 
 
 // 6. Musiqi Player Funksiyaları
