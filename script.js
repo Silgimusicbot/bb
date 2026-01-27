@@ -1,91 +1,94 @@
 // ================= KONFİQURASİYA =================
 const config = {
-    githubUsername: "SENIN_GITHUB_ADIN", // GitHub istifadəçi adın
-    repoName: "REPO_ADIN",              // Repozitoriyanın adı
-    startDate: "2025-08-03T00:00:00",
-    meetingCount: 83,
-    musicTitle: "Gözlərin dəydi gözümə🤍"
+    githubUsername: "Silgimusicbot", 
+    repoName: "bb",              
+    startDate: "2025-08-03T00:00:00",    
+    meetingCount: 83,                    
+    musicTitle: "Cəmaləm Üçün"
 };
 // =================================================
 
 const audio = document.getElementById('music-file');
-const galleryStack = document.getElementById('gallery-stack');
+const playBtn = document.querySelector('.play-btn');
+const playBtnIcon = playBtn.querySelector('i');
+const seekSlider = document.querySelector('.seek_slider');
+const volumeSlider = document.querySelector('.volume_slider');
+const currTimeText = document.getElementById('curr-time');
+const totalDurText = document.getElementById('total-duration');
+const trackArt = document.getElementById('track-art');
 
-// 1. GitHub-dan şəkilləri avtomatik çəkmək
-async function fetchImages() {
-    const url = `https://api.github.com/repos/${config.githubUsername}/${config.repoName}/contents/gallery`;
-    
-    try {
-        const response = await fetch(url);
-        const files = await response.json();
-        
-        // Şəkil formatlarını süzgəcdən keçiririk
-        const imageFiles = files.filter(file => 
-            file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)
-        );
+let isPlaying = false;
 
-        renderGallery(imageFiles);
-    } catch (error) {
-        console.error("Şəkillər yüklənmədi:", error);
-    }
-}
-
-function renderGallery(images) {
-    // Üst-üstə yığılan hissə üçün son 4 şəkli götürürük
-    let stackHTML = '';
-    const lastImages = images.slice(-4); 
-    
-    lastImages.forEach((img, index) => {
-        stackHTML += `<img src="${img.download_url}" class="stack-item" style="z-index: ${index}">`;
-    });
-    galleryStack.innerHTML = stackHTML;
-
-    // Qalereyaya klik edəndə ilk şəkildən başlayaraq lightbox açılır
-    galleryStack.onclick = () => {
-        openLightbox(images, 0);
-    };
-}
-
-// 2. Lightbox (Açılan Qalereya) Funksiyası
-let currentIdx = 0;
-function openLightbox(images, index) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    currentIdx = index;
-
-    lightbox.style.display = 'flex';
-    lightboxImg.src = images[currentIdx].download_url;
-
-    document.querySelector('.next').onclick = () => {
-        currentIdx = (currentIdx + 1) % images.length;
-        lightboxImg.src = images[currentIdx].download_url;
-    };
-
-    document.querySelector('.prev').onclick = () => {
-        currentIdx = (currentIdx - 1 + images.length) % images.length;
-        lightboxImg.src = images[currentIdx].download_url;
-    };
-}
-
-// 3. Zaman Sayğacı
-function updateCounter() {
-    const start = new Date(config.startDate).getTime();
-    const now = new Date().getTime();
-    const diff = now - start;
-
-    document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-    document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
-    document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
-}
-
-// 4. Musiqi və Giriş Kontrolu
+// 1. Giriş və Musiqi Başlatma
 document.getElementById('enter-btn').addEventListener('click', () => {
     document.getElementById('welcome-screen').style.display = 'none';
     document.getElementById('main-content').classList.remove('hidden');
-    audio.play();
+    
+    // Görüş sayını və sayğacı işə sal
+    document.getElementById('meet-count').innerText = config.meetingCount;
     setInterval(updateCounter, 1000);
-    fetchImages(); // Şəkilləri bura daxil olanda çəkirik
+    
+    // Şəkilləri çək
+    fetchImages();
+    
+    // Musiqini başlat
+    playTrack();
 });
 
-// Digər player funksiyaları (səs, bar sürüşdürmə) əvvəlki kodla eynidir...
+// 2. Play / Pause Funksiyası
+function playpauseTrack() {
+    if (!isPlaying) playTrack();
+    else pauseTrack();
+}
+
+function playTrack() {
+    audio.play().then(() => {
+        isPlaying = true;
+        trackArt.classList.add('playing');
+        playBtnIcon.classList.replace('fa-play-circle', 'fa-pause-circle');
+    }).catch(error => console.log("Musiqi çalınmadı:", error));
+}
+
+function pauseTrack() {
+    audio.pause();
+    isPlaying = false;
+    trackArt.classList.remove('playing');
+    playBtnIcon.classList.replace('fa-pause-circle', 'fa-play-circle');
+}
+
+// 3. Zaman və Slider Yeniləmə
+audio.ontimeupdate = () => {
+    if (audio.duration) {
+        // Sliderin yerini yenilə
+        const seekPosition = (audio.currentTime / audio.duration) * 100;
+        seekSlider.value = seekPosition;
+
+        // Yazılı saniyələri yenilə
+        currTimeText.innerText = formatTime(audio.currentTime);
+        totalDurText.innerText = formatTime(audio.duration);
+    }
+};
+
+function formatTime(seconds) {
+    let min = Math.floor(seconds / 60);
+    let sec = Math.floor(seconds % 60);
+    if (sec < 10) sec = "0" + sec;
+    if (min < 10) min = "0" + min;
+    return min + ":" + sec;
+}
+
+// Slider ilə musiqini irəli-geri çəkmək
+seekSlider.oninput = () => {
+    const seekTo = audio.duration * (seekSlider.value / 100);
+    audio.currentTime = seekTo;
+};
+
+// 4. Səs Tənzimləmə
+function setVolume() {
+    audio.volume = volumeSlider.value / 100;
+}
+
+// Volume sliderinə hadisə əlavə et
+if(volumeSlider) {
+    volumeSlider.addEventListener('input', setVolume);
+}
