@@ -19,29 +19,29 @@
     <main id="main-content" class="hidden">
         
         <header>
-            <div class="logo-container">
-                <span class="letter">H</span>
-
-                <div class="infinity-wrapper">
-                    <svg viewBox="0 0 200 100" width="120">
-                        <path
-                            d="
-                            M20,50
-                            C40,10 80,10 100,50
-                            C120,90 160,90 180,50
-                            C160,10 120,10 100,50
-                            C80,90 40,90 20,50
-                            Z"
-                            fill="none"
-                            stroke="white"
-                            stroke-width="4"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"/>
-                    </svg>
-                </div>
-
-                <span class="letter">C</span>
+          <div class="logo-container" style="display:flex; align-items:center; gap:8px; padding:10px; background:#0f0f0f;">
+            <span class="letter" style="color:white; font-size:24px; font-weight:bold;">H</span>
+            <div class="infinity-wrapper">
+              <svg viewBox="-200 -100 400 200" width="120" height="60" xmlns="http://www.w3.org/2000/svg">
+                <path id="infinity-path"
+                      d="M -150 0
+                         C -150 -80, -20 -80, 0 0
+                         C 20 80, 150 80, 150 0
+                         C 150 -80, 20 -80, 0 0
+                         C -20 80, -150 80, -150 0"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="4"
+                      stroke-linecap="round"/>
+                <circle r="4" fill="red">
+                  <animateMotion dur="3s" repeatCount="indefinite" rotate="auto">
+                    <mpath href="#infinity-path"/>
+                  </animateMotion>
+                </circle>
+              </svg>
             </div>
+            <span class="letter" style="color:white; font-size:24px; font-weight:bold;">C</span>
+          </div>
         </header>
 
         <section class="counter-section">
