@@ -2,45 +2,55 @@
 const config = {
     githubUsername: "Silgimusicbot", 
     repoName: "bb",              
-    startDate: "2025-08-03T00:00:00",    
-    meetingCount: 83,                    
+    startDate: "2025-08-03T00:00:00", // Sayğacın başlama tarixi
+    meetingCount: 83,                  // Görüş sayı
     musicTitle: "Cəmaləm Üçün"
 };
 // =================================================
 
 const audio = document.getElementById('music-file');
 const playBtn = document.querySelector('.play-btn');
-const playBtnIcon = playBtn ? playBtn.querySelector('i') : null;
 const seekSlider = document.querySelector('.seek_slider');
 const volumeSlider = document.querySelector('.volume_slider');
 const currTimeText = document.getElementById('curr-time');
 const totalDurText = document.getElementById('total-duration');
 const trackArt = document.getElementById('track-art');
 
+let allImages = []; 
+let currentImgIdx = 0;
 let isPlaying = false;
 
 // 1. Sayt açılan kimi işləməli olanlar
 document.addEventListener('DOMContentLoaded', () => {
-    // Rəqəmi dərhal yaz
-    if(document.getElementById('meet-count')) {
-        document.getElementById('meet-count').innerText = config.meetingCount;
-    }
+    // Görüş sayını HTML-ə yaz
+    const meetEl = document.getElementById('meet-count');
+    if(meetEl) meetEl.innerText = config.meetingCount;
+
     // Taymeri başlat
     updateCounter();
     setInterval(updateCounter, 1000);
 });
 
-// 2. Giriş Düyməsi
+// 2. Giriş Düyməsi (Xoş gəldin ekranını keçmək)
 document.getElementById('enter-btn').addEventListener('click', () => {
     document.getElementById('welcome-screen').style.display = 'none';
     document.getElementById('main-content').classList.remove('hidden');
     
-    // Şəkilləri və musiqini daxil olanda aktiv et
+    // Şəkilləri GitHub-dan çək
     fetchImages();
-    playTrack();
+    
+    // Musiqini başlat
+    if (audio) {
+        audio.play().then(() => {
+            isPlaying = true;
+            if(trackArt) trackArt.classList.add('playing');
+            const icon = playBtn.querySelector('i');
+            if(icon) icon.classList.replace('fa-play-circle', 'fa-pause-circle');
+        }).catch(e => console.log("Musiqi avtomatik başlatma bloklandı."));
+    }
 });
 
-// 3. Taymer Funksiyası
+// 3. Zaman Sayğacı Funksiyası
 function updateCounter() {
     const start = new Date(config.startDate).getTime();
     const now = new Date().getTime();
@@ -53,14 +63,13 @@ function updateCounter() {
     const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-    // HTML-də elementlər varsa doldur
     if(document.getElementById('days')) document.getElementById('days').innerText = d;
     if(document.getElementById('hours')) document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
     if(document.getElementById('minutes')) document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
     if(document.getElementById('seconds')) document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
 }
 
-// 4. Qalereya (GitHub API)
+// 4. GitHub Qalereya Funksiyası
 async function fetchImages() {
     const stack = document.getElementById('gallery-stack');
     if(!stack) return;
@@ -71,51 +80,72 @@ async function fetchImages() {
         const response = await fetch(url);
         const files = await response.json();
         
-        const images = files.filter(f => f.name.match(/\.(jpg|jpeg|png|webp|gif)$/i));
+        // Şəkil formatlarını seçirik
+        allImages = files.filter(f => f.name.match(/\.(jpg|jpeg|png|webp|gif)$/i));
 
-        if(images.length > 0) {
+        if(allImages.length > 0) {
             let html = '';
-            // Son 4 şəkli stack kimi düz
-            images.slice(-4).forEach((img, idx) => {
+            // Son 4 şəkli mərkəzdə stack kimi göstər
+            allImages.slice(-4).forEach((img, idx) => {
                 html += `<img src="${img.download_url}" class="stack-item" style="z-index:${idx}">`;
             });
             stack.innerHTML = html;
             
-            // Üstünə basanda lightbox (böyütmə) işləsin
-            stack.onclick = () => {
-                const lb = document.getElementById('lightbox');
-                const lbImg = document.getElementById('lightbox-img');
-                lb.style.display = 'flex';
-                lbImg.src = images[images.length - 1].download_url;
-                
-                document.querySelector('.close-lightbox').onclick = () => lb.style.display = 'none';
-            };
+            // Üstünə basanda animasiyalı Lightbox aç
+            stack.onclick = () => openLightbox(allImages.length - 1);
         }
     } catch (e) {
         console.error("Qalereya xətası:", e);
     }
 }
 
-// 5. Musiqi Player Funksiyaları
+// 5. Lightbox (Şəkil böyütmə və dəyişmə)
+function openLightbox(index) {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    if(!lb || !lbImg) return;
+
+    currentImgIdx = index;
+    lbImg.src = allImages[currentImgIdx].download_url;
+    
+    lb.classList.add('active'); // CSS animasiyasını tətikləyir
+    lb.style.display = 'flex';
+
+    // Bağlamaq üçün
+    document.querySelector('.close-lightbox').onclick = () => {
+        lb.classList.remove('active');
+        lb.style.display = 'none';
+    };
+
+    // Sağa-sola dəyişmək
+    document.getElementById('next-btn').onclick = (e) => { e.stopPropagation(); changeImage(1); };
+    document.getElementById('prev-btn').onclick = (e) => { e.stopPropagation(); changeImage(-1); };
+    
+    // Boş yerə basanda bağlansın
+    lb.onclick = (e) => { if(e.target === lb) { lb.style.display = 'none'; lb.classList.remove('active'); } };
+}
+
+function changeImage(step) {
+    currentImgIdx = (currentImgIdx + step + allImages.length) % allImages.length;
+    const lbImg = document.getElementById('lightbox-img');
+    lbImg.style.opacity = "0"; // Keçid animasiyası
+    setTimeout(() => {
+        lbImg.src = allImages[currentImgIdx].download_url;
+        lbImg.style.opacity = "1";
+    }, 200);
+}
+
+// 6. Musiqi Player Funksiyaları
 function playpauseTrack() {
-    if (!isPlaying) playTrack();
-    else pauseTrack();
-}
-
-function playTrack() {
-    if(!audio) return;
-    audio.play().then(() => {
-        isPlaying = true;
+    if (audio.paused) {
+        audio.play();
         if(trackArt) trackArt.classList.add('playing');
-        if(playBtnIcon) playBtnIcon.classList.replace('fa-play-circle', 'fa-pause-circle');
-    }).catch(e => console.log("Play bloklandı"));
-}
-
-function pauseTrack() {
-    audio.pause();
-    isPlaying = false;
-    if(trackArt) trackArt.classList.remove('playing');
-    if(playBtnIcon) playBtnIcon.classList.replace('fa-pause-circle', 'fa-play-circle');
+        playBtn.querySelector('i').classList.replace('fa-play-circle', 'fa-pause-circle');
+    } else {
+        audio.pause();
+        if(trackArt) trackArt.classList.remove('playing');
+        playBtn.querySelector('i').classList.replace('fa-pause-circle', 'fa-play-circle');
+    }
 }
 
 if(audio) {
@@ -126,22 +156,18 @@ if(audio) {
             totalDurText.innerText = formatTime(audio.duration);
         }
     };
-}
-
-function formatTime(sec) {
-    let m = Math.floor(sec / 60);
-    let s = Math.floor(sec % 60);
-    return (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+    
+    function formatTime(sec) {
+        let m = Math.floor(sec / 60);
+        let s = Math.floor(sec % 60);
+        return (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+    }
 }
 
 if(seekSlider) {
-    seekSlider.oninput = () => {
-        audio.currentTime = (seekSlider.value / 100) * audio.duration;
-    };
+    seekSlider.oninput = () => { audio.currentTime = (seekSlider.value / 100) * audio.duration; };
 }
 
 if(volumeSlider) {
-    volumeSlider.oninput = () => {
-        audio.volume = volumeSlider.value / 100;
-    };
+    volumeSlider.oninput = () => { audio.volume = volumeSlider.value / 100; };
 }
