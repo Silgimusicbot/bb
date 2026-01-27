@@ -20,16 +20,60 @@
     <main id="main-content" class="hidden">
         
         <header>
-            <div class="logo-container">
-                <span class="letter">H</span>
-                <div class="infinity-wrapper">
-                    <svg viewBox="0 0 100 50" class="infinity-svg">
-                        <path d="M20,25 C20,9 46,9 50,25 C54,41 80,41 80,25 C80,9 54,9 50,25 C46,41 20,41 20,25" fill="none" stroke="pink" stroke-width="3" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <span class="letter">C</span>
-            </div>
-        </header>
+  <div class="logo-container" style="display:flex; align-items:center; gap:8px; padding:10px; background:#0f0f0f;">
+    <!-- H harfi -->
+    <span class="letter" style="color:white; font-size:24px; font-weight:bold;">H</span>
+
+    <!-- Sonsuzluk -->
+    <div class="infinity-wrapper">
+      <svg viewBox="0 0 100 50" class="infinity-svg" width="120" height="60" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Gradient tanımı -->
+          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff00ff"/>
+            <stop offset="50%" stop-color="#00ffff"/>
+            <stop offset="100%" stop-color="#ff00ff"/>
+          </linearGradient>
+          <!-- Glow filtresi -->
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3.5" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Sonsuzluk path -->
+        <path id="infinity-path"
+              d="M20,25 C20,9 46,9 50,25 C54,41 80,41 80,25 C80,9 54,9 50,25 C46,41 20,41 20,25"
+              fill="none"
+              stroke="url(#grad)"
+              stroke-width="3"
+              stroke-linecap="round"
+              style="filter:url(#glow); animation: pulse 2s ease-in-out infinite;"/>
+
+        <!-- Dolaşan kırmızı nokta -->
+        <circle r="2" fill="red" style="filter:drop-shadow(0 0 4px red);">
+          <animateMotion dur="3s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#infinity-path"/>
+          </animateMotion>
+        </circle>
+      </svg>
+    </div>
+
+    <!-- C harfi -->
+    <span class="letter" style="color:white; font-size:24px; font-weight:bold;">C</span>
+  </div>
+</header>
+
+<style>
+/* Çizgi pulse animasyonu */
+@keyframes pulse {
+  0%,100% { stroke-width:3; opacity:1; }
+  50% { stroke-width:5; opacity:0.7; }
+}
+</style>
 
         <section class="counter-section">
             <h2>Birlikdə keçən zaman</h2>
