@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H &infin; C | Bizim Dünyamız</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <div class="welcome-content">
+            <h1>Xoş Gəldin, Cəmalə</h1>
+            <p>Bizim dünyamıza daxil olmaq üçün toxun...</p>
+            <button id="enter-btn">Giriş <i class="fas fa-heart"></i></button>
+        </div>
+    </div>
+
+    <main id="main-content" class="hidden">
+        
+        <header>
+            <div class="logo-container">
+                <span class="letter">H</span>
+                <div class="infinity-wrapper">
+                    <svg viewBox="0 0 100 50" class="infinity-svg">
+                        <path d="M25,25 C25,40 5,40 5,25 C5,10 25,10 25,25 C25,40 50,40 50,25 C50,10 75,10 75,25 C75,40 95,40 95,25 C95,10 75,10 75,25" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="letter">C</span>
+            </div>
+        </header>
+
+        <section class="counter-section">
+            <h2>Birlikdə keçən zaman</h2>
+            <div id="timer" class="timer-grid">
+                <div class="time-box"><span id="days">0</span><label>Gün</label></div>
+                <div class="time-box"><span id="hours">0</span><label>Saat</label></div>
+                <div class="time-box"><span id="minutes">0</span><label>Dəq</label></div>
+                <div class="time-box"><span id="seconds">0</span><label>San</label></div>
+            </div>
+            <div class="meeting-count">
+                <i class="fas fa-map-marker-alt"></i> Görüş sayımız: <span id="meet-count">0</span>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <h3>Sevgi Qaleryamız</h3>
+            <p class="hint">Şəkillərə baxmaq üçün toxun</p>
+            <div class="stacked-gallery" id="gallery-stack">
+                </div>
+        </section>
+
+        <section class="music-player">
+            <div class="player-card">
+                <div class="cover-art">
+                    <img src="assets/music-cover.jpg" alt="Music Cover" id="track-art">
+                </div>
+                <div class="track-info">
+                    <h4 id="track-name">Bizim Mahnımız</h4>
+                    <div class="progress-container">
+                        <span id="curr-time">00:00</span>
+                        <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+                        <span id="total-duration">00:00</span>
+                    </div>
+                    <div class="controls">
+                        <div class="volume-box">
+                            <i class="fa fa-volume-down"></i>
+                            <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
+                            <i class="fa fa-volume-up"></i>
+                        </div>
+                        <button class="play-btn" onclick="playpauseTrack()">
+                            <i class="fa fa-play-circle fa-3x"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="links-section">
+            <h3>Cəmalə üçün</h3>
+            <div class="quote-links">
+                <a href="https://senin-linkin-1.com" target="_blank" class="quote-card">
+                    <blockquote>"Sənin üçün hazırladığım xüsusi bir səhifə..."</blockquote>
+                    <cite>Bura toxun</cite>
+                </a>
+                <a href="https://senin-linkin-2.com" target="_blank" class="quote-card">
+                    <blockquote>"Xatirələrimizin olduğu başqa bir dünya..."</blockquote>
+                    <cite>Keçid et</cite>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-nav">
+            <span class="prev">&#10094;</span>
+            <span class="next">&#10095;</span>
+        </div>
+    </div>
+
+    <audio id="music-file" src="assets/music.mp3" loop></audio>
+    <script src="script.js"></script>
+</body>
+</html>
