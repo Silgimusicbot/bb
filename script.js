@@ -99,41 +99,42 @@ async function fetchImages() {
     }
 }
 
-// 5. Lightbox (Şəkil böyütmə və dəyişmə)
-function openLightbox(index) {
-    const lb = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lightbox-img');
-    if(!lb || !lbImg) return;
-
-    currentImgIdx = index;
-    lbImg.src = allImages[currentImgIdx].download_url;
-    
-    lb.classList.add('active'); // CSS animasiyasını tətikləyir
-    lb.style.display = 'flex';
-
-    // Bağlamaq üçün
-    document.querySelector('.close-lightbox').onclick = () => {
-        lb.classList.remove('active');
-        lb.style.display = 'none';
-    };
-
-    // Sağa-sola dəyişmək
-    document.getElementById('next-btn').onclick = (e) => { e.stopPropagation(); changeImage(1); };
-    document.getElementById('prev-btn').onclick = (e) => { e.stopPropagation(); changeImage(-1); };
-    
-    // Boş yerə basanda bağlansın
-    lb.onclick = (e) => { if(e.target === lb) { lb.style.display = 'none'; lb.classList.remove('active'); } };
-}
-
+// 1. Şəkli dəyişmək üçün əsas funksiya
 function changeImage(step) {
+    // Növbəti indeksin hesablanması (Siyahı bitəndə başa qayıdır)
     currentImgIdx = (currentImgIdx + step + allImages.length) % allImages.length;
+    
     const lbImg = document.getElementById('lightbox-img');
-    lbImg.style.opacity = "0"; // Keçid animasiyası
+    
+    // Keçid animasiyası (yox olub-açılma)
+    lbImg.style.opacity = "0.5";
     setTimeout(() => {
         lbImg.src = allImages[currentImgIdx].download_url;
         lbImg.style.opacity = "1";
-    }, 200);
+    }, 100);
 }
+
+// 2. Lightbox açılarkən düymələri aktiv edən hissə
+function openLightbox(index) {
+    currentImgIdx = index;
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    
+    lbImg.src = allImages[currentImgIdx].download_url;
+    lb.style.display = 'flex'; // Lightbox-u göstər
+
+    // DÜYMƏLƏRƏ FUNKSİYA VERİLMƏSİ
+    document.getElementById('next-btn').onclick = (e) => {
+        e.stopPropagation(); // Lightbox-un bağlanmasını önləyir
+        changeImage(1);
+    };
+
+    document.getElementById('prev-btn').onclick = (e) => {
+        e.stopPropagation();
+        changeImage(-1);
+    };
+}
+
 
 // 6. Musiqi Player Funksiyaları
 function playpauseTrack() {
