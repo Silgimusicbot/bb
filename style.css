@@ -365,82 +365,95 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 #changing-love {
     font-weight: bold;
 }
-/* Rose Container */
 .rose-wrapper {
-    width: 100px;
-    height: 220px;
+    width: 120px;
+    height: 240px;
     position: relative;
-    margin: 0 auto 20px auto;
+    margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Hər şeyi mərkəz xəttinə bağlayır */
-    animation: yidon 5s infinite;
+    align-items: center;
+    animation: yidon 5s infinite ease-in-out;
 }
 
-/* Çiçəyin baş hissəsi */
+/* Çiçək başı */
 .rose-flower {
     position: relative;
-    width: 50px;
-    height: 50px;
-    z-index: 2;
-    margin-left: 15px; /* Ləçəklərin sağa meyilliliyini kompensasiya edirik */
+    width: 60px;
+    height: 60px;
 }
 
+/* Ləçəklər */
 .petal {
-    width: 50px;
-    height: 50px;
+    position: absolute;
+    width: 60px;
+    height: 60px;
     background: #fe7696;
-    border-radius: 0px 50%;
-    position: absolute;
-    box-shadow: 0 0 10px #D1123F;
-    transform-origin: bottom right; 
-    animation: zhankai2 10s infinite;
+    border-radius: 0 70%;
+    box-shadow: 0 0 10px #d1123f;
+    transform-origin: bottom center;
 }
 
-/* Digər ləçəklərin kodları eyni qalır */
-.petal:nth-child(2){ transform-origin: right bottom; transform: rotate(90deg); left: -10px; animation: zhankai1 10s infinite; }
-.petal:nth-child(3){ width: 40px; height: 40px; left: 10px; top: -20px; z-index: 1; background: #f03a64; animation: zhankai2 10s infinite; }
-.petal:nth-child(4){ transform: rotate(90deg); width: 40px; height: 40px; left: 0px; top: -20px; z-index: 1; background: #f03a64; animation: zhankai1 10s infinite; }
-.petal:nth-child(5){ width: 50px; height: 50px; border-radius: 20px; left: 20px; top: -30px; z-index: 0; background: #d1123f; }
+.petal:nth-child(1) {
+    transform: rotate(0deg);
+}
 
-/* Gövdə (Artıq tam mərkəzdədir) */
+.petal:nth-child(2) {
+    transform: rotate(90deg);
+}
+
+.petal:nth-child(3) {
+    transform: rotate(180deg);
+}
+
+.petal:nth-child(4) {
+    transform: rotate(270deg);
+}
+
+.petal:nth-child(5) {
+    width: 40px;
+    height: 40px;
+    background: #d1123f;
+    top: 10px;
+    left: 10px;
+    border-radius: 50%;
+}
+
+/* Gövdə */
 .leaf {
-    position: relative;
     width: 6px;
-    height: 120px;
+    height: 130px;
     background: #77a377;
-    margin-top: -5px; /* Çiçəyə tam yapışması üçün */
-    border-radius: 4px;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
+    border-radius: 5px;
+    position: relative;
+    margin-top: -5px;
 }
 
-/* Yarpaqlar (Gövdədən ayrılmayan yeni sistem) */
-.leaf::before, .leaf::after {
-    content: '';
-    position: absolute;
-    background: #77a377;
-    border-radius: 0 50%;
-    width: 35px;
-    height: 20px;
-}
-
-/* Sağ yarpaq */
-.leaf::before {
-    top: 25px;
-    left: 5px; /* Gövdənin sağ tərəfinə yapışır */
-    transform: rotate(20deg);
-}
-
-/* Sol yarpaq */
+/* Yarpaqlar */
+.leaf::before,
 .leaf::after {
-    top: 45px;
-    left: -34px; /* Gövdənin sol tərəfinə yapışır */
-    transform: rotate(160deg);
+    content: "";
+    position: absolute;
+    width: 35px;
+    height: 18px;
+    background: #77a377;
+    border-radius: 0 60%;
 }
 
-/* Animasiyalar dəyişməz qalır */
-@keyframes yidon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-@keyframes zhankai1 { 50% { transform: rotate(110deg); } 100% { transform: rotate(90deg); } }
-@keyframes zhankai2 { 50% { transform: rotate(-20deg); } 100% { transform: rotate(0deg); } }
+.leaf::before {
+    top: 30px;
+    left: 6px;
+    transform: rotate(25deg);
+}
+
+.leaf::after {
+    top: 55px;
+    right: 6px;
+    transform: rotate(-160deg);
+}
+
+/* Animasiya */
+@keyframes yidon {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
