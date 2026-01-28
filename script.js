@@ -190,3 +190,24 @@ if(seekSlider) {
 if(volumeSlider) {
     volumeSlider.oninput = () => { audio.volume = volumeSlider.value / 100; };
 }
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart-particle');
+    heart.innerHTML = '🤍'; // Ürək simvolu
+    
+    // Təsadüfi yer və ölçü
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+    heart.style.duration = Math.random() * 2 + 3 + "s";
+    
+    document.body.appendChild(heart);
+    
+    // Animasiya bitəndən sonra ürəyi silirik ki, sayt ağırlaşmasın
+    setTimeout(() => {
+        heart.remove();
+    }, 4000);
+}
+
+// Hər 500 millisaniyədən (yarım saniyə) bir yeni ürək yaransın
+setInterval(createHeart, 500);
+
