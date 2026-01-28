@@ -365,19 +365,19 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 #changing-love {
     font-weight: bold;
 }
-/* Rose Container - Ümumi mərkəzləmə */
+/* Rose Container */
 .rose-wrapper {
-    width: 200px;
-    height: 250px;
+    width: 100px;
+    height: 220px;
     position: relative;
-    margin: 0 auto 20px auto; /* Üfüqi mərkəzləmə */
+    margin: 0 auto 20px auto;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Hər şeyi ortalayır */
+    align-items: center; /* Hər şeyi bir xətt üzərində mərkəzləyir */
     animation: yidon 5s infinite;
 }
 
-/* Çiçəyin ləçək hissəsi */
+/* Çiçək hissəsi */
 .rose-flower {
     position: relative;
     width: 50px;
@@ -428,64 +428,47 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     background: #d1123f;
 }
 
-/* Gövdə və Yarpaqlar */
+/* Yeni Sabit Gövdə Sistemi */
 .leaf {
     position: relative;
-    width: 2px; /* Gövdənin əsl mərkəzi */
-    height: 150px;
-    margin-top: -10px; /* Çiçəyə birləşdiririk */
-    display: flex;
-    justify-content: center;
+    width: 6px; /* Gövdənin qalınlığı */
+    height: 120px;
+    background: #77a377; /* Gövdənin rəngi */
+    margin-top: -10px;
+    border-radius: 4px;
+    z-index: 1;
 }
 
-.stem {
-    width: 180px;
-    height: 40px;
-    background: transparent;
-    border: 6px solid #77a377;
-    border-color: #77a377 transparent transparent transparent;
-    border-radius: 50%;
-    transform: rotate(90deg); /* Şaquli duruş */
+/* Yarpaqlar */
+.leaf::before, .leaf::after {
+    content: '';
     position: absolute;
-    top: 40px; /* Çiçəyin altına çəkirik */
-}
-
-.leafs {
-    width: 40px;
-    height: 25px;
-    border-radius: 0px 50%;
     background: #77a377;
-    position: absolute;
-    z-index: 49;
+    border-radius: 0 50%;
 }
 
-/* Yarpaqların mövqeyi */
-.leafs:nth-child(2) {
-    top: 50px;
-    left: 15px;
+/* Sağ yarpaq */
+.leaf::before {
+    width: 30px;
+    height: 20px;
+    top: 30px;
+    left: 6px;
     transform: rotate(20deg);
 }
 
-.leafs:nth-child(3) {
-    width: 35px;
+/* Sol yarpaq */
+.leaf::after {
+    width: 30px;
     height: 20px;
-    top: 80px;
-    left: -45px;
-    transform: rotate(150deg);
+    top: 50px;
+    left: -30px;
+    transform: rotate(160deg);
 }
 
-/* Animasiyalar */
+/* Animasiyalar dəyişmir */
 @keyframes yidon {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
 }
-
-@keyframes zhankai1 {
-    50% { transform: rotate(110deg); }
-    100% { transform: rotate(90deg); }
-}
-
-@keyframes zhankai2 {
-    50% { transform: rotate(-20deg); }
-    100% { transform: rotate(0deg); }
-}
+@keyframes zhankai1 { 50% { transform: rotate(110deg); } 100% { transform: rotate(90deg); } }
+@keyframes zhankai2 { 50% { transform: rotate(-20deg); } 100% { transform: rotate(0deg); } }
