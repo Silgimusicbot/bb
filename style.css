@@ -350,33 +350,18 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     position: relative;
 }
 
-/* Kənarlara kölgə veririk ki, yazı dumanın içindən çıxırmış kimi görünsün */
-.love-slider::before, .love-slider::after {
-    content: "";
-    position: absolute;
-    top: 0; width: 100px; height: 100%;
-    z-index: 2;
-}
-.love-slider::before { left: 0; background: linear-gradient(to right, rgba(0,0,0,0.5), transparent); }
-.love-slider::after { right: 0; background: linear-gradient(to left, rgba(0,0,0,0.5), transparent); }
-
-.love-track {
-    display: inline-block;
-    animation: scrollLove 100s linear infinite; /* Çoxlu dil olduğu üçün vaxtı artırdıq */
+.love-switcher {
+    width: 100%;
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 30px;
+    font-family: 'monospace', sans-serif; /* Daha çox "kod" və ya "sürətli dəyişən" havası üçün */
+    font-size: 1.4rem;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
 }
 
-.love-track span {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-right: 40px;
-    display: inline-block;
+#changing-love {
+    font-weight: bold;
 }
-.love-track span b { color: #ff4d6d; } /* Ürəklər üçün rəng */
-
-@keyframes scrollLove {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-}
-
-
