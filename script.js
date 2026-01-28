@@ -239,3 +239,27 @@ function openLetter(type) {
     modal.style.display = 'flex';
 }
 function closeLetter() { document.getElementById('letter-modal').style.display = 'none'; }
+const lovePhrases = [
+    "Səni sevirəm", "I Love You", "Seni Seviyorum", "Je t'aime", "Ich liebe dich", "Te amo", "Ti amo", "Eu te amo", 
+    "Ik hou van jou", "Jag älskar dig", "Jeg elsker deg", "Kocham Cię", "Szeretlek", "Miluji tě", "Te iubesc", 
+    "Volim te", "Σ' αγαπώ", "Я тебя люблю", "Men seni sevaman", "S'agapo", "Ana behibek", "Mahal kita", 
+    "Wo ai ni", "Aishiteru", "Saranghae", "Ami tomake bhalobashi", "Naku penda", "S'ayapo", "Ti tengu caru", 
+    "Es tevi mīlu", "Tave myliu", "Ma armastan sind", "Volim te", "Ljubim te", "Te dua", "Obicham te", 
+    "Inuanyanda", "Bi chamd khairtai", "Thane piyar karu", "Seni seviyore", "Kuv hlub koj", "M'bi fe", 
+    "Ngiyakuthanda", "Ana moajaba bik", "Tora dost daram", "Mene tula prem karto", "Njan ninne premikkunnu",
+    "Bang-bang", "Ez te hezdikhem", "Mən səni sevirəm", "Sua s'dei", "Wa ga liyit", "S'ayapo"
+];
+
+function initLoveSlider() {
+    const track = document.getElementById('love-track');
+    if (!track) return;
+
+    // Dilləri aralarına ürək qoyaraq birləşdiririk
+    const content = lovePhrases.map(phrase => `<span>${phrase} <b>❤️</b></span>`).join('');
+    
+    // Sonsuz döngü üçün eyni mətni yan-yana iki dəfə qoyuruq
+    track.innerHTML = content + content;
+}
+
+// Səhifə yüklənəndə işə sal
+initLoveSlider();
