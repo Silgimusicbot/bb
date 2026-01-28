@@ -309,3 +309,35 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     }
 }
 
+.letters-section { text-align: center; margin-bottom: 50px; }
+.envelopes-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 15px; padding: 10px;
+}
+.envelope {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px; border-radius: 15px; cursor: pointer;
+    transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.envelope i { font-size: 1.8rem; color: #ff4d6d; }
+.envelope:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.2); }
+
+/* Məktub Modal */
+.letter-modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    z-index: 10001; justify-content: center; align-items: center; padding: 20px;
+}
+.letter-content {
+    background: #fff; color: #333; padding: 40px 25px; border-radius: 25px;
+    max-width: 450px; width: 100%; position: relative; text-align: center;
+    box-shadow: 0 0 30px rgba(255, 77, 109, 0.5);
+    animation: popUp 0.4s ease-out;
+}
+.letter-content h2 { font-family: 'Great Vibes', cursive; color: #ff4d6d; font-size: 2.8rem; margin-bottom: 15px; }
+.letter-content p { font-size: 1.1rem; line-height: 1.7; font-family: 'Poppins', sans-serif; }
+.close-letter { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #888; }
+@keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+
