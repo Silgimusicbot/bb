@@ -339,5 +339,44 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 .letter-content p { font-size: 1.1rem; line-height: 1.7; font-family: 'Poppins', sans-serif; }
 .close-letter { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #888; }
 @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.love-slider {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px 0;
+    margin-top: 50px;
+    border-top: 1px solid rgba(255, 77, 109, 0.3);
+    white-space: nowrap;
+    position: relative;
+}
+
+/* Kənarlara kölgə veririk ki, yazı dumanın içindən çıxırmış kimi görünsün */
+.love-slider::before, .love-slider::after {
+    content: "";
+    position: absolute;
+    top: 0; width: 100px; height: 100%;
+    z-index: 2;
+}
+.love-slider::before { left: 0; background: linear-gradient(to right, rgba(0,0,0,0.5), transparent); }
+.love-slider::after { right: 0; background: linear-gradient(to left, rgba(0,0,0,0.5), transparent); }
+
+.love-track {
+    display: inline-block;
+    animation: scrollLove 100s linear infinite; /* Çoxlu dil olduğu üçün vaxtı artırdıq */
+}
+
+.love-track span {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-right: 40px;
+    display: inline-block;
+}
+.love-track span b { color: #ff4d6d; } /* Ürəklər üçün rəng */
+
+@keyframes scrollLove {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
 
 
