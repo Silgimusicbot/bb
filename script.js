@@ -211,3 +211,31 @@ function createHeart() {
 // Hər 500 millisaniyədən (yarım saniyə) bir yeni ürək yaransın
 setInterval(createHeart, 500);
 
+// MƏKTUB MƏZMUNLARI
+const letters = {
+    "miss": {
+        title: "Darıxanda...",
+        text: "Bilirəm, məsafələr bəzən adamın ürəyini sıxır. Amma unutma ki, biz eyni səmaya baxırıq. Darıxmaq əslində sevgimizin nə qədər güclü olduğunu göstərir. İndi gözlərini yum, dərindən nəfəs al və əlini ürəyinin üzərinə qoy. Hiss etdin? Mən tam ordayam, səninləyəm. Səni çox sevirəm."
+    },
+    "sad": {
+        title: "Kefin olmayanda...",
+        text: "Bilirəm, bəzən hər şey üst-üstə gəlir, insan sadəcə susmaq və dünyadan qaçmaq istəyir. Əgər hazırda özünü elə hiss edirsənsə, bil ki, mən həmişə burdayam. Hətta bəzən bu kədərin səbəbi mən olsam belə, bil ki, bu heç vaxt istəyərək olmayıb. Səni incitdiyim anlar üçün məni bağışla... Mən bəlkə hər problemi həll edə bilmərəm, amma səninlə birlikdə hər şeyə qarşı dura bilərəm. İstədiyin an mənə söykənə bilərsən. Sənin hər halın mənim üçün dəyərlidir, təkcə güləndə yox. Sakitləş, dincəl və unutma: nə olursa olsun, mən həmişə sənin tərəfindəyəm."
+    },
+    "happy": {
+        title: "Xoşbəxt olanda...",
+        text: "Bax bunu eşitmək istəyirəm. Sənin xoşbəxtliyin mənim üçün hər şeydən önəmlidir. Bu günün dadını çıxar, gül, əylən. Sən xoşbəxt olanda mən də dünyanın ən xoşbəxt adamı oluram. Həmişə belə parılda, günəşim!"
+    },
+    "us": {
+        title: "Bizim üçün...",
+        text: "Nə yaxşı ki, həyat yollarımızı kəsişdirib. Sən mənim təkcə sevgilim yox, həm də ən yaxşı dostumsan. Səninlə keçən hər saniyə mənim üçün hədiyyədir. Birlikdə hələ neçə gözəl günlərimiz olacaq. Yaxşı ki varsan, Cəmaləm."
+    }
+};
+
+// Məktub funksiyaları
+function openLetter(type) {
+    const modal = document.getElementById('letter-modal');
+    document.getElementById('letter-title').innerText = letters[type].title;
+    document.getElementById('letter-text').innerText = letters[type].text;
+    modal.style.display = 'flex';
+}
+function closeLetter() { document.getElementById('letter-modal').style.display = 'none'; }
