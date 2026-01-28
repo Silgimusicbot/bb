@@ -429,7 +429,7 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 .leaf {
     position: absolute;
     top: 60px;
-    left: -80px; /* Mövqeyi tənzimləndi */
+    left: -15px; /* Mövqeyi tənzimləndi */
 }
 
 .stem {
@@ -439,7 +439,7 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     border: 6px solid #8ac78a;
     border-color: #77a377 transparent transparent transparent;
     border-radius: 50% 50%;
-    transform: rotate(100deg);
+    transform: rotate(90deg);
 }
 
 .leafs {
