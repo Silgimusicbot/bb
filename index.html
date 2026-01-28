@@ -49,6 +49,36 @@
             <div class="stacked-gallery" id="gallery-stack">
                 </div>
         </section>
+        <section class="letters-section">
+            <h3>Məni hiss etdiyində...</h3>
+            <div class="envelopes-grid">
+                <div class="envelope" onclick="openLetter('miss')">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <span>Darıxanda</span>
+                </div>
+                <div class="envelope" onclick="openLetter('sad')">
+                    <i class="fas fa-cloud-rain"></i>
+                    <span>Kefin olmayanda</span>
+                </div>
+                <div class="envelope" onclick="openLetter('happy')">
+                    <i class="fas fa-sun"></i>
+                    <span>Xoşbəxt olanda</span>
+                </div>
+                <div class="envelope" onclick="openLetter('us')">
+                    <i class="fas fa-heart"></i>
+                    <span>Bizim üçün</span>
+                </div>
+            </div>
+        </section>
+
+        <div id="letter-modal" class="letter-modal">
+            <div class="letter-content">
+                <span class="close-letter" onclick="closeLetter()">&times;</span>
+                <h2 id="letter-title">Başlıq</h2>
+                <p id="letter-text">Məktub mətni...</p>
+            </div>
+        </div>
+
 
         <section class="music-player">
             <div class="player-card">
