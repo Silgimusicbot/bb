@@ -365,3 +365,62 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 #changing-love {
     font-weight: bold;
 }
+/* Gülün yerləşdiyi qutu */
+.rose-container {
+    margin-bottom: 30px;
+    position: relative;
+    animation: roseFloat 3s infinite ease-in-out;
+}
+
+/* Qırmızı ləçəklər */
+.rose {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.petal {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: #d52d44;
+    border-radius: 50% 50% 0 50%;
+    transform-origin: bottom right;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+}
+
+/* Ləçəkləri fırladaraq gül forması veririk */
+.petal:nth-child(1) { transform: rotate(0deg); }
+.petal:nth-child(2) { transform: rotate(72deg); opacity: 0.9; }
+.petal:nth-child(3) { transform: rotate(144deg); opacity: 0.8; }
+.petal:nth-child(4) { transform: rotate(216deg); opacity: 0.7; }
+.petal:nth-child(5) { transform: rotate(288deg); opacity: 0.9; }
+
+/* Gülün gövdəsi (yaşıl hissə) */
+.stem {
+    width: 4px;
+    height: 80px;
+    background: #2e7d32;
+    margin: -5px auto 0;
+    position: relative;
+    border-radius: 2px;
+}
+
+/* Yarpaqlar */
+.leaf {
+    width: 20px;
+    height: 10px;
+    background: #2e7d32;
+    position: absolute;
+    border-radius: 15px 0 15px 0;
+}
+
+.leaf:nth-child(1) { top: 20px; left: 4px; transform: rotate(10deg); }
+.leaf:nth-child(2) { top: 40px; right: 4px; transform: rotate(-160deg); }
+
+/* Animasiya: Gülün yüngülcə yellənməsi */
+@keyframes roseFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+}
+
