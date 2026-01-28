@@ -287,3 +287,25 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 }
 
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.heart-particle {
+    position: fixed;
+    bottom: -10px; /* Ekranın altından başlayır */
+    font-size: 20px;
+    color: #ff4d6d;
+    user-select: none;
+    pointer-events: none;
+    z-index: 999;
+    animation: moveUp 4s linear forwards;
+}
+
+@keyframes moveUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
