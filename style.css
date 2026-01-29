@@ -476,3 +476,17 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     50% { transform: rotate(-20deg); }
     100% { transform: rotate(0deg); }
 }
+
+.visualizer-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+#visualizer {
+    width: 250px; /* İstədiyin ölçüdə edə bilərsən */
+    height: 60px;
+    border-radius: 10px;
+}
