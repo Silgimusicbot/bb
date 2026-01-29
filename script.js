@@ -259,3 +259,62 @@ function fastChangeLoveText() {
 
 // Sürət: 200ms (0.2 saniyə) - İldırım sürəti ilə dəyişmə
 setInterval(fastChangeLoveText, 200);
+let audioContext, analyser, source, canvas, ctx;
+
+function initVisualizer(audioElement) {
+    // Əgər artıq yaradılıbsa, yenidən yaratma (xətanın qarşısını alır)
+    if (audioContext) return; 
+
+    try {
+        // 1. Audio sistemini başlat
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        
+        // 2. Musiqi faylını analizatora bağla
+        source = audioContext.createMediaElementSource(audioElement);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        // 3. Parametrlər (FFT size nə qədər kiçik olsa, barlar o qədər qalın olar)
+        analyser.fftSize = 64; 
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        // 4. Canvas ayarları
+        canvas = document.getElementById('visualizer');
+        ctx = canvas.getContext('2d');
+
+        function draw() {
+            requestAnimationFrame(draw); // Davamlı rəsm çəkir
+            analyser.getByteFrequencyData(dataArray); // Səs məlumatını alır
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Ekranı təmizləyir
+
+            const barWidth = (canvas.width / bufferLength) * 2;
+            let barHeight;
+            let x = 0;
+
+            for (let i = 0; i < bufferLength; i++) {
+                barHeight = dataArray[i] / 2.5; // Barların hündürlüyü
+
+                // Rəng və effekt (Qırmızı/Çəhrayı parıltı)
+                ctx.fillStyle = `rgba(254, 118, 150, ${barHeight / 100 + 0.4})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = "#D1123F";
+                
+                // Barı çək (aşağıdan yuxarıya doğru)
+                ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+                x += barWidth + 2; // Növbəti bar üçün məsafə
+            }
+        }
+        draw();
+    } catch (e) {
+        console.error("Vizualizator xətası:", e);
+    }
+}
+
+// BU FUNKSİYANI İŞƏ SALMAQ ÜÇÜN:
+// Sənin giriş düymənin (enter-btn) click hadisəsinə bunu əlavə et:
+// initVisualizer(audioElementi);
+
