@@ -41,6 +41,7 @@ document.getElementById('enter-btn').addEventListener('click', () => {
     
     // Musiqini başlat
     if (audio) {
+        initVisualizer(audio);
         audio.play().then(() => {
             isPlaying = true;
             if(trackArt) trackArt.classList.add('playing');
