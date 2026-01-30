@@ -314,8 +314,36 @@ function initVisualizer(audioElement) {
         console.error("Vizualizator xətası:", e);
     }
 }
+async function convertMusic() {
+    const url = document.getElementById('youtube-url').value;
+    const btn = document.getElementById('convert-btn');
+    const loader = document.getElementById('loader');
+    const resultDiv = document.getElementById('download-result');
+    const dlLink = document.getElementById('download-link');
 
-// BU FUNKSİYANI İŞƏ SALMAQ ÜÇÜN:
-// Sənin giriş düymənin (enter-btn) click hadisəsinə bunu əlavə et:
-// initVisualizer(audioElementi);
+    if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
+        alert('Zəhmət olmasa düzgün YouTube linki daxil edin!');
+        return;
+    }
+
+    // Vizual keçid
+    btn.disabled = true;
+    loader.classList.remove('hidden');
+    resultDiv.classList.add('hidden');
+
+    // YouTube Video ID-sini çıxarırıq
+    const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
+
+    // Pulsuz API xidmətindən istifadə edirik (Məsələn: d.tubeapi.org və ya digər sürətli API-lar)
+    // Qeyd: Bu, kənar sayta getmədən birbaşa fayl linkini çəkməyə çalışacaq
+    const downloadUrl = `https://api.vevioz.com/@api/button/mp3/${videoId}`;
+    
+    // Prosesi simulyasiya edirik (çünki çevrilmə vaxt aparır)
+    setTimeout(() => {
+        loader.classList.add('hidden');
+        resultDiv.classList.remove('hidden');
+        dlLink.href = downloadUrl;
+        btn.disabled = false;
+    }, 2000);
+}
 
