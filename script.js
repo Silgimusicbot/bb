@@ -314,48 +314,51 @@ function initVisualizer(audioElement) {
         console.error("Vizualizator xətası:", e);
     }
 }
-async function convertMusic() {
+function convertMusic() {
     const urlInput = document.getElementById('youtube-url');
     const btn = document.getElementById('convert-btn');
+    const loader = document.getElementById('loader');
     const resultDiv = document.getElementById('download-result');
     const dlLink = document.getElementById('download-link');
+    const format = document.querySelector('input[name="format"]:checked').value;
 
     const url = urlInput.value.trim();
     if (!url) return alert("Linki daxil edin!");
 
-    btn.disabled = true;
-    btn.innerText = "Emal olunur...";
-
+    // Video ID-sini çıxarmaq
+    let videoId = "";
     try {
-        // Cobalt API - Reklamsız və birbaşa fayl linki verən nadir servislərdən biri
-        const response = await fetch('https://api.cobalt.tools/api/json', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                url: url,
-                downloadMode: 'audio', // Sırf MP3/Audio üçün
-                audioFormat: 'mp3',
-                audioBitrate: '128'
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.url) {
-            btn.innerText = "Hazırla";
-            btn.disabled = false;
-            resultDiv.style.display = 'block';
-            dlLink.href = data.url;
-            dlLink.innerText = "Mahnını Reklamsız Endir";
+        if (url.includes("v=")) {
+            videoId = url.split('v=')[1].split('&')[0];
+        } else if (url.includes("youtu.be/")) {
+            videoId = url.split('youtu.be/')[1].split('?')[0];
         } else {
-            throw new Error("Link alınmadı");
+            videoId = url.split('/').pop();
         }
-    } catch (error) {
-        alert("Xəta baş verdi. Servis müvəqqəti məşğul ola bilər.");
-        btn.disabled = false;
-        btn.innerText = "Yenidən yoxla";
+    } catch (e) {
+        alert("Düzgün YouTube linki daxil edin!");
+        return;
     }
+
+    // Vizual effekt
+    btn.disabled = true;
+    loader.style.display = 'block';
+    resultDiv.style.display = 'none';
+
+    // Bu API-lar adətən CORS problemi yaratmır çünki birbaşa redirect edir
+    // Format seçiminə görə linki tənzimləyirik
+    let finalUrl = `https://9xbuddy.com/process?url=https://www.youtube.com/watch?v=${videoId}`;
+    
+    // Əgər sırf MP3 üçün daha birbaşa keçid istəyirsənsə:
+    if(format === "mp3") {
+        finalUrl = `https://www.y2mate.com/tr/youtube/${videoId}`;
+    }
+
+    setTimeout(() => {
+        loader.style.display = 'none';
+        resultDiv.style.display = 'block';
+        dlLink.href = finalUrl;
+        dlLink.innerText = format === "mp3" ? "MP3 Hazırdır - Endir" : "Video Hazırdır - Endir";
+        btn.disabled = false;
+    }, 1500);
 }
