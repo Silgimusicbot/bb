@@ -317,53 +317,45 @@ function initVisualizer(audioElement) {
 async function convertMusic() {
     const urlInput = document.getElementById('youtube-url');
     const btn = document.getElementById('convert-btn');
-    const loader = document.getElementById('loader');
     const resultDiv = document.getElementById('download-result');
     const dlLink = document.getElementById('download-link');
 
     const url = urlInput.value.trim();
+    if (!url) return alert("Linki daxil edin!");
 
-    if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
-        alert('Zəhmət olmasa düzgün YouTube linki daxil edin!');
-        return;
-    }
-
-    // Vizual keçid
     btn.disabled = true;
-    btn.innerText = "Hazırlanır...";
-    loader.style.display = 'block';
-    resultDiv.style.display = 'none';
+    btn.innerText = "Emal olunur...";
 
-    // Video ID-sini çıxarırıq
-    let videoId = "";
     try {
-        if (url.includes("v=")) {
-            videoId = url.split('v=')[1].split('&')[0];
-        } else if (url.includes("youtu.be/")) {
-            videoId = url.split('youtu.be/')[1].split('?')[0];
-        } else {
-            videoId = url.split('/').pop();
-        }
-    } catch (e) {
-        alert("Link başa düşülmədi.");
-        btn.disabled = false;
-        return;
-    }
+        // Cobalt API - Reklamsız və birbaşa fayl linki verən nadir servislərdən biri
+        const response = await fetch('https://api.cobalt.tools/api/json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                url: url,
+                downloadMode: 'audio', // Sırf MP3/Audio üçün
+                audioFormat: 'mp3',
+                audioBitrate: '128'
+            })
+        });
 
-    // Alternativ və daha stabil API (loader.to servisi vasitəsilə)
-    // Bu servis birbaşa endirmə səhifəsinə yönləndirir və ya faylı hazırlayır
-    const downloadUrl = `https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${videoId}&f=mp3`;
-    
-    // Prosesi simulyasiya edirik
-    setTimeout(() => {
-        loader.style.display = 'none';
-        resultDiv.style.display = 'block';
-        
-        // Iframe və ya düymə kimi istifadə etmək üçün linki hazırlayırıq
-        dlLink.href = downloadUrl;
-        dlLink.innerText = "Mahnını Buradan Endir";
-        
+        const data = await response.json();
+
+        if (data.url) {
+            btn.innerText = "Hazırla";
+            btn.disabled = false;
+            resultDiv.style.display = 'block';
+            dlLink.href = data.url;
+            dlLink.innerText = "Mahnını Reklamsız Endir";
+        } else {
+            throw new Error("Link alınmadı");
+        }
+    } catch (error) {
+        alert("Xəta baş verdi. Servis müvəqqəti məşğul ola bilər.");
         btn.disabled = false;
-        btn.innerText = "Hazırla";
-    }, 2000);
+        btn.innerText = "Yenidən yoxla";
+    }
 }
