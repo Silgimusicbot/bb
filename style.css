@@ -490,19 +490,58 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     height: 60px;
     border-radius: 10px;
 }
-.youtube-converter {
+.converter-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(254, 118, 150, 0.3);
+    margin: 30px auto;
     width: 90%;
-    max-width: 500px;
-    margin: 30px auto; /* Yuxarıdan və aşağıdan boşluq */
-    padding: 0 10px;
-    display: flex;
-    justify-content: center;
+    max-width: 400px;
+    text-align: center;
 }
 
-/* Əgər telefonda çox bitişik görünsə */
-@media (max-width: 600px) {
-    .youtube-converter {
-        width: 95%;
-        margin: 20px auto;
-    }
+.converter-box h3 { color: #fe7696; margin-bottom: 15px; font-size: 1rem; }
+
+.input-area { display: flex; gap: 8px; }
+
+#youtube-url {
+    flex: 2;
+    background: #000;
+    border: 1px solid #333;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+}
+
+#convert-btn {
+    background: #fe7696;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#download-result { margin-top: 15px; }
+
+#download-link {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    animation: pulse 1.5s infinite;
+}
+
+.hidden { display: none; }
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
