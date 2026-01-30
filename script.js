@@ -315,11 +315,13 @@ function initVisualizer(audioElement) {
     }
 }
 async function convertMusic() {
-    const url = document.getElementById('youtube-url').value;
+    const urlInput = document.getElementById('youtube-url');
     const btn = document.getElementById('convert-btn');
     const loader = document.getElementById('loader');
     const resultDiv = document.getElementById('download-result');
     const dlLink = document.getElementById('download-link');
+
+    const url = urlInput.value.trim();
 
     if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
         alert('Zəhmət olmasa düzgün YouTube linki daxil edin!');
@@ -328,22 +330,40 @@ async function convertMusic() {
 
     // Vizual keçid
     btn.disabled = true;
-    loader.classList.remove('hidden');
-    resultDiv.classList.add('hidden');
+    btn.innerText = "Hazırlanır...";
+    loader.style.display = 'block';
+    resultDiv.style.display = 'none';
 
-    // YouTube Video ID-sini çıxarırıq
-    const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
-
-    // Pulsuz API xidmətindən istifadə edirik (Məsələn: d.tubeapi.org və ya digər sürətli API-lar)
-    // Qeyd: Bu, kənar sayta getmədən birbaşa fayl linkini çəkməyə çalışacaq
-    const downloadUrl = `https://api.vevioz.com/@api/button/mp3/${videoId}`;
-    
-    // Prosesi simulyasiya edirik (çünki çevrilmə vaxt aparır)
-    setTimeout(() => {
-        loader.classList.add('hidden');
-        resultDiv.classList.remove('hidden');
-        dlLink.href = downloadUrl;
+    // Video ID-sini çıxarırıq
+    let videoId = "";
+    try {
+        if (url.includes("v=")) {
+            videoId = url.split('v=')[1].split('&')[0];
+        } else if (url.includes("youtu.be/")) {
+            videoId = url.split('youtu.be/')[1].split('?')[0];
+        } else {
+            videoId = url.split('/').pop();
+        }
+    } catch (e) {
+        alert("Link başa düşülmədi.");
         btn.disabled = false;
+        return;
+    }
+
+    // Alternativ və daha stabil API (loader.to servisi vasitəsilə)
+    // Bu servis birbaşa endirmə səhifəsinə yönləndirir və ya faylı hazırlayır
+    const downloadUrl = `https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${videoId}&f=mp3`;
+    
+    // Prosesi simulyasiya edirik
+    setTimeout(() => {
+        loader.style.display = 'none';
+        resultDiv.style.display = 'block';
+        
+        // Iframe və ya düymə kimi istifadə etmək üçün linki hazırlayırıq
+        dlLink.href = downloadUrl;
+        dlLink.innerText = "Mahnını Buradan Endir";
+        
+        btn.disabled = false;
+        btn.innerText = "Hazırla";
     }, 2000);
 }
-
