@@ -490,3 +490,19 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     height: 60px;
     border-radius: 10px;
 }
+.youtube-converter {
+    width: 90%;
+    max-width: 500px;
+    margin: 30px auto; /* Yuxarıdan və aşağıdan boşluq */
+    padding: 0 10px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Əgər telefonda çox bitişik görünsə */
+@media (max-width: 600px) {
+    .youtube-converter {
+        width: 95%;
+        margin: 20px auto;
+    }
+}
