@@ -276,30 +276,14 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 .next { right: 10px; }
 
 /* MOBİL UYĞUNLUQ */
-/* Bu hissəni CSS-də tap və dəyiş */
 @media (max-width: 650px) {
     .logo-container { font-size: 2.8rem; }
     .timer-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .player-card { 
-        flex-direction: column; 
-        text-align: center; 
-        gap: 15px; /* Elementlər bir-birinə çox yapışmasın */
-    }
-    
-    /* GİZLİ OLAN HİSSƏNİ BURADA AÇIRIQ */
-    .volume-box { 
-        display: flex !important; 
-        justify-content: center; 
-        width: 100%; 
-        margin-top: 10px;
-    }
-    
-    .volume_slider { 
-        width: 120px; /* Mobildə barmaqla idarə üçün biraz daha böyük */
-    }
-    
-    .controls { justify-content: center; width: 100%; }
+    .player-card { flex-direction: column; text-align: center; }
+    .volume-box { display: none; }
+    .controls { justify-content: center; }
     .time-box span { font-size: 1.6rem; }
+    .prev, .next { font-size: 40px; padding: 10px; }
 }
 
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
