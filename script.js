@@ -362,3 +362,34 @@ function convertMusic() {
         btn.disabled = false;
     }, 1500);
 }
+// GÖRÜŞ TAYMERİ AYARLARI
+const targetDate = new Date("2026-02-14T13:00:00"); // BURANI DƏYİŞ: İl-Ay-Gün Saat:Dəqiqə:Saniyə
+
+function updateMeetingTimer() {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    // Alt hissədəki tarixi avtomatik yazdırırıq (məs: 20 May, 18:00)
+    const options = { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
+    document.getElementById('next-meeting-date').innerText = "Görüş vaxtı: " + targetDate.toLocaleDateString('az-AZ', options);
+
+    if (diff <= 0) {
+        document.querySelector('.meeting-timer h3').innerText = "Görüş vaxtı gəldi!";
+        return;
+    }
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('meet-days').innerText = d < 10 ? "0" + d : d;
+    document.getElementById('meet-hours').innerText = h < 10 ? "0" + h : h;
+    document.getElementById('meet-minutes').innerText = m < 10 ? "0" + m : m;
+    document.getElementById('meet-seconds').innerText = s < 10 ? "0" + s : s;
+}
+
+// Hər saniyə yenilə
+setInterval(updateMeetingTimer, 1000);
+updateMeetingTimer();
+
