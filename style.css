@@ -491,7 +491,7 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     border-radius: 10px;
 }
 /* =========================================
-   NÖVBƏTİ GÖRÜŞ TAYMERİ - MİNİMALİST STİL
+   NÖVBƏTİ GÖRÜŞ TAYMERİ - GLASSMORPHISM STİL
    ========================================= */
 
 .meeting-section {
@@ -501,67 +501,82 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 }
 
 .meeting-timer {
-    background: transparent; /* Kənar fon rəngini sildik */
-    border: none;             /* Kənar çərçivəni sildik */
-    backdrop-filter: none;    /* Bulanlıqlığı sildik */
+    /* Glassmorphism effekti */
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); /* Safari dəstəyi üçün */
+    border: 1px solid var(--glass-border);
+    border-radius: 25px;
+    
+    padding: 40px 25px;
     text-align: center;
-    padding: 20px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .meeting-timer h3 {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.8rem;
-    color: var(--primary); /* Çəhrayı başlıq */
+    font-size: 3rem;
+    color: var(--primary);
     margin-bottom: 5px;
-    text-shadow: 0 0 8px rgba(255, 77, 109, 0.3);
+    text-shadow: 0 0 12px rgba(255, 77, 109, 0.4);
 }
 
 .meeting-date-text {
     font-family: 'Poppins', sans-serif;
     font-size: 1.1rem;
     color: #fff;
-    opacity: 0.9;
+    opacity: 0.8;
     margin-bottom: 30px;
     display: block;
 }
 
-/* Taymer qutularını sadələşdiririk */
+/* Taymer qutuları */
 .meeting-timer .timer-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
+    margin: 25px 0;
 }
 
 .meeting-timer .time-box {
-    background: transparent; /* Qutuların fonunu sildik */
-    padding: 10px;
-    border-radius: 0;
-    /* Yalnız alt hissədə çəhrayı xətt */
+    /* İç qutuların tünd şüşə effekti */
+    background: rgba(0, 0, 0, 0.25);
+    padding: 18px 10px;
+    border-radius: 18px;
+    /* Sənin istədiyin o məşhur alt xətt */
     border-bottom: 3px solid var(--primary); 
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.meeting-timer .time-box:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 0, 0, 0.4);
 }
 
 .meeting-timer .time-box span {
     display: block;
-    font-size: 2.5rem; /* Rəqəmləri bir az böyütdük */
-    font-weight: 600;
-    color: var(--primary); /* Rəqəmlər çəhrayı */
-    margin-bottom: 5px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 3px;
 }
 
 .meeting-timer .time-box label {
-    font-size: 0.8rem;
-    color: #fff; /* Yazılar ağ (rəqəmlərlə kontrast yaratsın deyə) */
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    color: #fff;
     text-transform: uppercase;
     letter-spacing: 2px;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
-/* Mobildə düzülüş */
-@media (max-width: 650px) {
+/* Mobil cihazlar üçün kiçiltmə */
+@media (max-width: 500px) {
     .meeting-timer .timer-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 8px;
+    }
+    .meeting-timer .time-box span {
+        font-size: 1.5rem;
     }
     .meeting-timer h3 {
         font-size: 2.2rem;
