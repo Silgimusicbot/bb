@@ -32,67 +32,58 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 2. Giriş Düyməsi (Xoş gəldin ekranını keçmək)
-const PASSWORD = "030825";
+document.addEventListener('DOMContentLoaded', () => {
 
-const modal = document.getElementById('password-modal');
-const input = document.getElementById('password-input');
-const error = document.getElementById('password-error');
+    const PASSWORD = "030825";
 
-document.getElementById('enter-btn').addEventListener('click', () => {
-    modal.style.display = 'flex';
-    input.value = "";
-    error.style.display = 'none';
-    setTimeout(() => input.focus(), 100);
-});
+    const modal = document.getElementById('password-modal');
+    const input = document.getElementById('password-input');
+    const error = document.getElementById('password-error');
+    const enterBtn = document.getElementById('enter-btn');
 
-document.getElementById('password-submit').addEventListener('click', checkPassword);
-
-input.addEventListener('keydown', (e) => {
-    if (e.key === "Enter") checkPassword();
-});
-
-function checkPassword() {
-
-    if (input.value === PASSWORD) {
-
-        // 🔓 Şifrə doğrudur — sayt açılır
-        modal.style.display = 'none';
-        document.getElementById('welcome-screen').style.display = 'none';
-        document.getElementById('main-content').classList.remove('hidden');
-
-        // 📸 GitHub qalereya şəkillərini çək
-        fetchImages();
-
-        // 🎵 Musiqini avtomatik başlat
-        if (audio) {
-            initVisualizer(audio);
-            audio.play().then(() => {
-                isPlaying = true;
-
-                if (trackArt) {
-                    trackArt.classList.add('playing');
-                }
-
-                const icon = playBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.replace(
-                        'fa-play-circle',
-                        'fa-pause-circle'
-                    );
-                }
-
-            }).catch(() => {
-                console.log("Autoplay bloklandı (normaldır)");
-            });
-        }
-
-    } else {
-        // ❌ Şifrə səhvdirsə
-        error.style.display = 'block';
-        input.value = "";
-        input.focus();
+    if (!enterBtn || !modal) {
+        console.error("Password modal və ya enter button tapılmadı");
+        return;
     }
-}
+
+    enterBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+        input.value = "";
+        error.style.display = 'none';
+        setTimeout(() => input.focus(), 100);
+    });
+
+    document.getElementById('password-submit')
+        .addEventListener('click', checkPassword);
+
+    input.addEventListener('keydown', e => {
+        if (e.key === "Enter") checkPassword();
+    });
+
+    function checkPassword() {
+
+        if (input.value === PASSWORD) {
+
+            modal.style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('main-content').classList.remove('hidden');
+
+            fetchImages();
+
+            if (audio) {
+                initVisualizer(audio);
+                audio.play().catch(() => {});
+            }
+
+        } else {
+            error.style.display = 'block';
+            input.value = "";
+            input.focus();
+        }
+    }
+
+});
+
 
 
 // 3. Zaman Sayğacı Funksiyası
