@@ -2,6 +2,7 @@
 const config = {
     githubUsername: "Silgimusicbot", 
     repoName: "bb",              
+    firstMeetingDate: "2025-10-22T00:00:00",
     startDate: "2025-08-03T00:00:00", // Sayğacın başlama tarixi
     meetingCount: 84,                  // Görüş sayı
     musicTitle: "Cəmaləm Üçün"
