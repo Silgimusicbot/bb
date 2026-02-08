@@ -406,47 +406,28 @@ function closePopup() {
 }
 
 // 3. Şifrəni yoxlamaq üçün funksiya
+function openPopup() {
+    document.getElementById('password-popup').style.display = 'block';
+    document.getElementById('touch-btn').style.display = 'none';
+}
+
 function checkPassword() {
-    // Elementləri tapırıq
     var inputVal = document.getElementById('pass-input').value;
     var welcomeScreen = document.getElementById('welcome-screen');
     var errorText = document.getElementById('error-text');
-    
-    var dogruSifre = "030825";
+    var music = document.getElementById('bg-music');
 
-    // Şifrə yoxlanışı
-    if (inputVal === dogruSifre) {
-        // 1. Şəffaflığı azaldırıq (Zərif keçid üçün)
+    if (inputVal === "030825") {
         welcomeScreen.style.opacity = "0";
-        welcomeScreen.style.transition = "opacity 0.8s ease";
+        if(music) music.play();
 
-        // 2. Musiqini başlatmağa çalışırıq
-        var audio = document.querySelector('audio');
-        if (audio) {
-            audio.play().catch(function(e) { console.log("Musiqi üçün toxunuş gözlənilir"); });
-        }
-
-        // 3. 0.8 saniyə sonra ekranı tamamilə ləğv edirik
         setTimeout(function() {
             welcomeScreen.style.display = "none";
-            
-            // Əgər taymerlərin dayanmışdısa, səhifəni "trigger" edirik ki, özünə gəlsin
-            window.dispatchEvent(new Event('resize'));
-        }, 800);
-
+            // Saytın qalan hissəsini aktivləşdir
+            document.getElementById('main-content').style.display = "block";
+        }, 1000);
     } else {
-        // Səhv şifrə halı
-        if (errorText) {
-            errorText.style.display = "block";
-            errorText.innerText = "Düzgün yaz!";
-        }
+        errorText.style.display = "block";
         document.getElementById('pass-input').value = "";
     }
 }
-
-// "Enter" düyməsi ilə işləməsi üçün (opsional amma rahatdır)
-document.getElementById('pass-input')?.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        checkPassword();
-    }
-});
