@@ -407,52 +407,46 @@ function closePopup() {
 
 // 3. Şifrəni yoxlamaq üçün funksiya
 function checkPassword() {
+    // Elementləri tapırıq
     var inputVal = document.getElementById('pass-input').value;
     var welcomeScreen = document.getElementById('welcome-screen');
     var errorText = document.getElementById('error-text');
     
     var dogruSifre = "030825";
 
+    // Şifrə yoxlanışı
     if (inputVal === dogruSifre) {
-        // 1. Giriş ekranını itir
+        // 1. Şəffaflığı azaldırıq (Zərif keçid üçün)
         welcomeScreen.style.opacity = "0";
-        
-        // 2. BÜTÜN gizli elementləri üzə çıxar
-        // Bütün section və div-lərin görünməsini təmin edirik
-        var allElements = document.querySelectorAll('section, main, header, footer, div');
-        allElements.forEach(function(el) {
-            if (el.id !== 'welcome-screen' && el.id !== 'password-popup') {
-                el.style.display = ""; // CSS-dəki orijinal halına qaytarır
-                el.style.opacity = "1";
-                el.style.visibility = "visible";
-            }
-        });
+        welcomeScreen.style.transition = "opacity 0.8s ease";
 
-        // 3. Əgər AOS (Scroll animasiyası) istifadə edirsənsə, onu təzələ
-        if (typeof AOS !== 'undefined') {
-            AOS.refresh();
-        }
-
-        // 4. İkinci taymerin funksiyasını yenidən çağır
-        // Əgər taymer funksiyanın adı updateMeetingTimer-dirsə:
-        if (typeof updateMeetingTimer === 'function') {
-            updateMeetingTimer();
-        }
-        
-        // 5. Musiqini mütləq başlat
-        var audio = document.querySelector('audio') || window.audio;
+        // 2. Musiqini başlatmağa çalışırıq
+        var audio = document.querySelector('audio');
         if (audio) {
-            audio.play().catch(function(error) {
-                console.log("Musiqi avtomatik başlamadı: ", error);
-            });
+            audio.play().catch(function(e) { console.log("Musiqi üçün toxunuş gözlənilir"); });
         }
 
+        // 3. 0.8 saniyə sonra ekranı tamamilə ləğv edirik
         setTimeout(function() {
             welcomeScreen.style.display = "none";
-        }, 1000);
-        
+            
+            // Əgər taymerlərin dayanmışdısa, səhifəni "trigger" edirik ki, özünə gəlsin
+            window.dispatchEvent(new Event('resize'));
+        }, 800);
+
     } else {
-        errorText.style.display = "block";
+        // Səhv şifrə halı
+        if (errorText) {
+            errorText.style.display = "block";
+            errorText.innerText = "Düzgün yaz!";
+        }
         document.getElementById('pass-input').value = "";
     }
 }
+
+// "Enter" düyməsi ilə işləməsi üçün (opsional amma rahatdır)
+document.getElementById('pass-input')?.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        checkPassword();
+    }
+});
