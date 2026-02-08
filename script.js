@@ -31,23 +31,35 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateCounter, 1000);
 });
 
-// 2. Giriş Düyməsi (Xoş gəldin ekranını keçmək)
+// 2. Giriş Düyməsi (Şifrə ilə Giriş)
 document.getElementById('enter-btn').addEventListener('click', () => {
-    document.getElementById('welcome-screen').style.display = 'none';
-    document.getElementById('main-content').classList.remove('hidden');
-    
-    // Şəkilləri GitHub-dan çək
-    fetchImages();
-    
-    // Musiqini başlat
-    if (audio) {
-        initVisualizer(audio);
-        audio.play().then(() => {
-            isPlaying = true;
-            if(trackArt) trackArt.classList.add('playing');
-            const icon = playBtn.querySelector('i');
-            if(icon) icon.classList.replace('fa-play-circle', 'fa-pause-circle');
-        }).catch(e => console.log("Musiqi avtomatik başlatma bloklandı."));
+    const sfire = "030825"; // Sənin təyin etdiyin şifrə
+    const istifadeciGiris = prompt("Davam etmək üçün özəl tariximizi yaz (DDMMYY):");
+
+    if (istifadeciGiris === sfire) {
+        // Şifrə düzdürsə saytı aç
+        document.getElementById('welcome-screen').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('main-content').classList.remove('hidden');
+        }, 800);
+        
+        // Şəkilləri GitHub-dan çək
+        fetchImages();
+        
+        // Musiqini başlat
+        if (audio) {
+            initVisualizer(audio);
+            audio.play().then(() => {
+                isPlaying = true;
+                if(trackArt) trackArt.classList.add('playing');
+                const icon = document.querySelector('.play-btn i');
+                if(icon) icon.classList.replace('fa-play-circle', 'fa-pause-circle');
+            }).catch(e => console.log("Musiqi avtomatik başlatma bloklandı."));
+        }
+    } else if (istifadeciGiris !== null) {
+        // Şifrə səhvdirsə xəbərdarlıq ver
+        alert("Kül başıva düz yaz");
     }
 });
 
