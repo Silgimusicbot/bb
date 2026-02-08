@@ -411,26 +411,40 @@ function checkPassword() {
     var welcomeScreen = document.getElementById('welcome-screen');
     var errorText = document.getElementById('error-text');
     
-    // Sənin şifrən
     var dogruSifre = "030825";
 
     if (inputVal === dogruSifre) {
-        // 1. Giriş ekranını yavaşca itir
+        // 1. Giriş ekranını itir
         welcomeScreen.style.opacity = "0";
         
-        // 2. Saytın digər bütün hissələrini tap və görünən et
-        // (Section, Main və Header teqlərini avtomatik tapır)
-        var allSections = document.querySelectorAll('section, main, header, .container, .content-wrapper');
-        allSections.forEach(function(sec) {
-            sec.style.display = "block"; // Gizlidirsə açır
-            sec.style.opacity = "1";     // Şəffafdırsa görünən edir
-            sec.style.visibility = "visible";
+        // 2. BÜTÜN gizli elementləri üzə çıxar
+        // Bütün section və div-lərin görünməsini təmin edirik
+        var allElements = document.querySelectorAll('section, main, header, footer, div');
+        allElements.forEach(function(el) {
+            if (el.id !== 'welcome-screen' && el.id !== 'password-popup') {
+                el.style.display = ""; // CSS-dəki orijinal halına qaytarır
+                el.style.opacity = "1";
+                el.style.visibility = "visible";
+            }
         });
 
-        // 3. Musiqini başlat (əgər audio elementin varsa)
-        var music = document.querySelector('audio');
-        if (music) {
-            music.play().catch(e => console.log("Musiqi avtomatik başlamadı, istifadəçi icazəsi lazımdır."));
+        // 3. Əgər AOS (Scroll animasiyası) istifadə edirsənsə, onu təzələ
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+
+        // 4. İkinci taymerin funksiyasını yenidən çağır
+        // Əgər taymer funksiyanın adı updateMeetingTimer-dirsə:
+        if (typeof updateMeetingTimer === 'function') {
+            updateMeetingTimer();
+        }
+        
+        // 5. Musiqini mütləq başlat
+        var audio = document.querySelector('audio') || window.audio;
+        if (audio) {
+            audio.play().catch(function(error) {
+                console.log("Musiqi avtomatik başlamadı: ", error);
+            });
         }
 
         setTimeout(function() {
