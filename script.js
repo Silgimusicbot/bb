@@ -411,22 +411,34 @@ function checkPassword() {
     var welcomeScreen = document.getElementById('welcome-screen');
     var errorText = document.getElementById('error-text');
     
-    // ŞİFRƏ BURADADIR
+    // Sənin şifrən
     var dogruSifre = "030825";
 
     if (inputVal === dogruSifre) {
-        // Şifrə düzdürsə:
-        welcomeScreen.style.transition = "opacity 1s ease";
-        welcomeScreen.style.opacity = "0"; // Ekranı şəffaflaşdır
+        // 1. Giriş ekranını yavaşca itir
+        welcomeScreen.style.opacity = "0";
         
+        // 2. Saytın digər bütün hissələrini tap və görünən et
+        // (Section, Main və Header teqlərini avtomatik tapır)
+        var allSections = document.querySelectorAll('section, main, header, .container, .content-wrapper');
+        allSections.forEach(function(sec) {
+            sec.style.display = "block"; // Gizlidirsə açır
+            sec.style.opacity = "1";     // Şəffafdırsa görünən edir
+            sec.style.visibility = "visible";
+        });
+
+        // 3. Musiqini başlat (əgər audio elementin varsa)
+        var music = document.querySelector('audio');
+        if (music) {
+            music.play().catch(e => console.log("Musiqi avtomatik başlamadı, istifadəçi icazəsi lazımdır."));
+        }
+
         setTimeout(function() {
-            welcomeScreen.style.display = "none"; // Tamamilə yox et
+            welcomeScreen.style.display = "none";
         }, 1000);
         
     } else {
-        // Şifrə səhvdirsə:
-        errorText.style.display = "block"; // "Düzgün yaz" yazısını göstər
-        errorText.innerText = "Kül başına düz yaz";
-        document.getElementById('pass-input').value = ""; // Qutunu təmizlə
+        errorText.style.display = "block";
+        document.getElementById('pass-input').value = "";
     }
 }
