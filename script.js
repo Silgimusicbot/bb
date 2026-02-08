@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 2. Giriş Düyməsi (Şifrə ilə Giriş)
 document.getElementById('enter-btn').addEventListener('click', () => {
     const sfire = "030825"; // Sənin təyin etdiyin şifrə
-    const istifadeciGiris = prompt("Davam etmək üçün özəl tariximizi yaz (DDMMYY):");
+    const istifadeciGiris = prompt("Sayta daxil olmaq üçün düzgün şifrəni yaz!");
 
     if (istifadeciGiris === sfire) {
         // Şifrə düzdürsə saytı aç
