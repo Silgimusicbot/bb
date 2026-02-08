@@ -374,7 +374,7 @@ function updateMeetingTimer() {
     document.getElementById('next-meeting-date').innerText = "Görüş vaxtı: " + targetDate.toLocaleDateString('az-AZ', options);
 
     if (diff <= 0) {
-        document.querySelector('.meeting-timer h3').innerText = "Görüş vaxtı gəldi!";
+        document.querySelector('.meeting-timer h3').innerText = "Növbəti görüş: bilinmir;
         return;
     }
 
