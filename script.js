@@ -392,4 +392,50 @@ function updateMeetingTimer() {
 // Hər saniyə yenilə
 setInterval(updateMeetingTimer, 1000);
 updateMeetingTimer();
+// Şifrə sahəsini açan funksiya
+function showPassInput() {
+    const enterBtn = document.getElementById('enter-btn');
+    const passArea = document.getElementById('pass-area');
+    
+    enterBtn.style.display = 'none'; // Toxun düyməsini gizlət
+    passArea.style.display = 'block'; // Şifrə yazmaq yerini göstər
+}
+
+// Şifrəni yoxlayan funksiya
+function checkPass() {
+    const passInput = document.getElementById('site-pass').value;
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const errorMsg = document.getElementById('error-msg');
+    
+    // Şifrəni burada təyin et (məsələn: 2210)
+    const dogruKod = "030825"; 
+
+    if (passInput === dogruKod) {
+        welcomeScreen.style.transition = "opacity 0.8s ease, visibility 0.8s";
+        welcomeScreen.style.opacity = "0";
+        welcomeScreen.style.visibility = "hidden";
+        
+        // Musiqi playerin varsa, kod düz olanda başlasın:
+        // if(typeof song !== 'undefined') song.play();
+        
+        setTimeout(() => {
+            welcomeScreen.style.display = "none";
+        }, 850);
+    } else {
+        errorMsg.style.display = "block";
+        document.getElementById('site-pass').value = ""; // Səhv olanda içini sil
+        
+        // 2 saniyə sonra xətanı gizlət
+        setTimeout(() => {
+            errorMsg.style.display = "none";
+        }, 2000);
+    }
+}
+
+// Enter düyməsi ilə daxil olmaq üçün
+document.getElementById('site-pass')?.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        checkPass();
+    }
+});
 
