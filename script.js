@@ -392,3 +392,41 @@ function updateMeetingTimer() {
 // Hər saniyə yenilə
 setInterval(updateMeetingTimer, 1000);
 updateMeetingTimer();
+// 1. Popup-ı açmaq üçün funksiya
+function openPopup() {
+    document.getElementById('password-popup').style.display = 'block';
+    document.getElementById('touch-btn').style.display = 'none'; // Toxun düyməsini gizlət
+}
+
+// 2. Popup-ı bağlamaq üçün funksiya (X düyməsi)
+function closePopup() {
+    document.getElementById('password-popup').style.display = 'none';
+    document.getElementById('touch-btn').style.display = 'inline-block'; // Düyməni geri qaytar
+    document.getElementById('error-text').style.display = 'none'; // Xətanı sil
+}
+
+// 3. Şifrəni yoxlamaq üçün funksiya
+function checkPassword() {
+    var inputVal = document.getElementById('pass-input').value;
+    var welcomeScreen = document.getElementById('welcome-screen');
+    var errorText = document.getElementById('error-text');
+    
+    // ŞİFRƏ BURADADIR
+    var dogruSifre = "030825";
+
+    if (inputVal === dogruSifre) {
+        // Şifrə düzdürsə:
+        welcomeScreen.style.transition = "opacity 1s ease";
+        welcomeScreen.style.opacity = "0"; // Ekranı şəffaflaşdır
+        
+        setTimeout(function() {
+            welcomeScreen.style.display = "none"; // Tamamilə yox et
+        }, 1000);
+        
+    } else {
+        // Şifrə səhvdirsə:
+        errorText.style.display = "block"; // "Düzgün yaz" yazısını göstər
+        errorText.innerText = "Kül başına düz yaz";
+        document.getElementById('pass-input').value = ""; // Qutunu təmizlə
+    }
+}
