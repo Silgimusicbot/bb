@@ -1,6 +1,5 @@
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap');
-
 :root {
     --primary: #ff4d6d;
     --primary-glow: rgba(255, 77, 109, 0.5);
@@ -8,15 +7,12 @@
     --glass-border: rgba(255, 255, 255, 0.2);
     --text: #ffffff;
 }
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
-
-/* ARXA PLAN - SABİT (PİN EDİLMİŞ) */
 body::before {
     content: "";
     position: fixed;
@@ -30,15 +26,12 @@ body::before {
     background-position: center;
     background-repeat: no-repeat;
 }
-
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
 }
-
-/* GİRİŞ EKRANI */
 #welcome-screen {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -49,10 +42,8 @@ body {
     align-items: center;
     transition: opacity 0.8s ease;
 }
-
 .welcome-content { text-align: center; }
 .welcome-content h1 { font-family: 'Great Vibes', cursive; font-size: 3.5rem; margin-bottom: 20px; }
-
 #enter-btn {
     padding: 15px 45px;
     background: var(--primary);
@@ -64,19 +55,13 @@ body {
     box-shadow: 0 10px 25px var(--primary-glow);
     transition: transform 0.3s ease;
 }
-
 #enter-btn:hover { transform: scale(1.1); }
-
-/* ANA KONTENT */
 .hidden { display: none; }
-
 main {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px 20px;
 }
-
-/* BAŞLIQ VE INFINITY */
 header { text-align: center; margin-bottom: 40px; }
 .logo-container {
     display: flex;
@@ -86,18 +71,14 @@ header { text-align: center; margin-bottom: 40px; }
     font-family: 'Great Vibes', cursive;
     font-size: 4.5rem;
 }
-
 .infinity-wrapper { width: 90px; }
 .infinity-svg path {
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
     animation: draw 4s ease forwards, glow 2s infinite alternate;
 }
-
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes glow { from { filter: drop-shadow(0 0 2px #fff); } to { filter: drop-shadow(0 0 12px var(--primary)); } }
-
-/* TAYMER */
 .counter-section {
     background: var(--glass);
     backdrop-filter: blur(15px);
@@ -107,25 +88,20 @@ header { text-align: center; margin-bottom: 40px; }
     text-align: center;
     margin-bottom: 50px;
 }
-
 .timer-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin: 25px 0;
 }
-
 .time-box {
     background: rgba(0,0,0,0.3);
     padding: 15px 5px;
     border-radius: 15px;
     border-bottom: 3px solid var(--primary);
 }
-
 .time-box span { display: block; font-size: 2rem; font-weight: 600; color: var(--primary); }
 .time-box label { font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; }
-
-/* QALEREYA - TAM ORTADA VƏ MODERN */
 .gallery-section {
     display: flex;
     flex-direction: column;
@@ -134,7 +110,6 @@ header { text-align: center; margin-bottom: 40px; }
     text-align: center;
     margin-bottom: 70px;
 }
-
 .stacked-gallery {
     position: relative;
     width: 220px;
@@ -143,7 +118,6 @@ header { text-align: center; margin-bottom: 40px; }
     cursor: pointer;
     perspective: 1000px;
 }
-
 .stack-item {
     position: absolute;
     top: 0; left: 0;
@@ -154,18 +128,13 @@ header { text-align: center; margin-bottom: 40px; }
     box-shadow: 0 15px 35px rgba(0,0,0,0.5);
     transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-
-/* Stack effekti */
 .stack-item:nth-child(1) { transform: rotate(-10deg) translateX(-15px); }
 .stack-item:nth-child(2) { transform: rotate(7deg) translateX(15px); }
 .stack-item:nth-child(3) { transform: rotate(-4deg) translateY(-5px); }
 .stack-item:nth-child(4) { transform: rotate(0deg); }
-
 .stacked-gallery:hover .stack-item {
     transform: rotate(0deg) translateY(-10px) scale(1.05);
 }
-
-/* MUSİQİ PLAYER */
 .music-player {
     background: var(--glass);
     backdrop-filter: blur(20px);
@@ -174,13 +143,11 @@ header { text-align: center; margin-bottom: 40px; }
     margin-bottom: 50px;
     border: 1px solid var(--glass-border);
 }
-
 .player-card {
     display: flex;
     align-items: center;
     gap: 25px;
 }
-
 .cover-art img {
     width: 90px;
     height: 90px;
@@ -190,33 +157,24 @@ header { text-align: center; margin-bottom: 40px; }
     animation: rotate 12s linear infinite;
     animation-play-state: paused;
 }
-
 .cover-art img.playing { animation-play-state: running; }
-
 .track-info { flex: 1; }
-
 .progress-container {
     display: flex;
     align-items: center;
     gap: 12px;
     margin: 15px 0;
 }
-
 .seek_slider { flex: 1; height: 6px; accent-color: var(--primary); cursor: pointer; }
-
 .controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .volume-box { display: flex; align-items: center; gap: 10px; }
 .volume_slider { width: 80px; accent-color: #fff; cursor: pointer; }
-
 .play-btn { background: none; border: none; color: white; cursor: pointer; transition: 0.3s; }
 .play-btn:hover { transform: scale(1.2); color: var(--primary); }
-
-/* LİNK BÖLMƏSİ (ALINTI) */
 .quote-card {
     display: block;
     text-decoration: none;
@@ -228,11 +186,8 @@ header { text-align: center; margin-bottom: 40px; }
     border-radius: 0 20px 20px 0;
     transition: 0.4s;
 }
-
 .quote-card:hover { background: rgba(255,255,255,0.1); transform: translateX(10px); }
 blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
-
-/* LIGHTBOX (ANIMASIYALI QALEREYA) */
 .lightbox {
     display: none;
     position: fixed;
@@ -245,9 +200,7 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     opacity: 0;
     transition: opacity 0.4s ease;
 }
-
 .lightbox.active { display: flex; opacity: 1; }
-
 .lightbox-content {
     max-width: 85%;
     max-height: 75vh;
@@ -256,9 +209,7 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     transform: scale(0.8);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
 }
-
 .lightbox.active .lightbox-content { transform: scale(1); }
-
 .close-lightbox { position: absolute; top: 30px; right: 30px; font-size: 45px; color: white; cursor: pointer; }
 .prev, .next {
     position: absolute;
@@ -274,8 +225,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 .prev:hover, .next:hover { color: var(--primary); }
 .prev { left: 10px; }
 .next { right: 10px; }
-
-/* MOBİL UYĞUNLUQ */
 @media (max-width: 650px) {
     .logo-container { font-size: 2.8rem; }
     .timer-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -285,11 +234,10 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     .time-box span { font-size: 1.6rem; }
     .prev, .next { font-size: 40px; padding: 10px; }
 }
-
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .heart-particle {
     position: fixed;
-    bottom: -10px; /* Ekranın altından başlayır */
+    bottom: -10px;
     font-size: 20px;
     color: #ff4d6d;
     user-select: none;
@@ -297,7 +245,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     z-index: 999;
     animation: moveUp 4s linear forwards;
 }
-
 @keyframes moveUp {
     0% {
         transform: translateY(0) rotate(0deg);
@@ -308,7 +255,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
         opacity: 0;
     }
 }
-
 .letters-section { text-align: center; margin-bottom: 50px; }
 .envelopes-grid {
     display: grid; grid-template-columns: repeat(2, 1fr);
@@ -322,8 +268,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
 }
 .envelope i { font-size: 1.8rem; color: #ff4d6d; }
 .envelope:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.2); }
-
-/* Məktub Modal */
 .letter-modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
@@ -349,23 +293,20 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     white-space: nowrap;
     position: relative;
 }
-
 .love-switcher {
     width: 100%;
     text-align: center;
     padding: 25px 0;
     margin-top: 30px;
-    font-family: 'monospace', sans-serif; /* Daha çox "kod" və ya "sürətli dəyişən" havası üçün */
+    font-family: 'monospace', sans-serif;
     font-size: 1.4rem;
     color: #ffffff;
     letter-spacing: 1px;
     text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
 }
-
 #changing-love {
     font-weight: bold;
 }
-/* Rose Container */
 .rose-wrapper {
     width: 200px;
     height: 250px;
@@ -375,13 +316,11 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     display: flex;
     justify-content: center;
 }
-
 .rose-flower {
     position: relative;
     width: 100px;
     height: 100px;
 }
-
 .petal {
     width: 50px;
     height: 50px;
@@ -393,14 +332,12 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     transform-origin: bottom right; 
     animation: zhankai2 10s infinite;
 }
-
 .petal:nth-child(2){
     transform-origin: right bottom;
     transform: rotate(90deg);
     left: -10px;
     animation: zhankai1 10s infinite;
 }
-
 .petal:nth-child(3){
     width: 40px; height: 40px;
     left: 10px; top: -20px;
@@ -408,7 +345,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     background: #f03a64;
     animation: zhankai2 10s infinite;
 }
-
 .petal:nth-child(4){
     transform: rotate(90deg);
     width: 40px; height: 40px;
@@ -417,7 +353,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     background: #f03a64;
     animation: zhankai1 10s infinite;
 }
-
 .petal:nth-child(5){
     width: 50px; height: 50px;
     border-radius: 20px;
@@ -425,13 +360,11 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     z-index: 0;
     background: #d1123f;
 }
-
 .leaf {
     position: absolute;
     top: 60px;
-    left: -80px; /* Mövqeyi tənzimləndi */
+    left: -80px; 
 }
-
 .stem {
     width: 200px;
     height: 40px;
@@ -441,7 +374,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     border-radius: 50% 50%;
     transform: rotate(100deg);
 }
-
 .leafs {
     width: 40px;
     height: 30px;
@@ -452,7 +384,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     left: 80px;
     z-index: 49;
 }
-
 .leafs:nth-child(2){
     width: 30px;
     height: 15px;
@@ -460,23 +391,18 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     left: 120px;
     transform: rotate(120deg);
 }
-
-/* Animasiyalar */
 @keyframes yidon {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
 }
-
 @keyframes zhankai1 {
     50% { transform: rotate(110deg); }
     100% { transform: rotate(90deg); }
 }
-
 @keyframes zhankai2 {
     50% { transform: rotate(-20deg); }
     100% { transform: rotate(0deg); }
 }
-
 .visualizer-container {
     width: 100%;
     display: flex;
@@ -484,35 +410,26 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     align-items: center;
     margin: 10px 0 40px 0;
 }
-
 #visualizer {
-    width: 250px; /* İstədiyin ölçüdə edə bilərsən */
+    width: 250px;
     height: 60px;
     border-radius: 10px;
 }
-/* =========================================
-   NÖVBƏTİ GÖRÜŞ TAYMERİ - GLASSMORPHISM STİL
-   ========================================= */
-
 .meeting-section {
     max-width: 800px;
     margin: 40px auto;
     padding: 0 20px;
 }
-
 .meeting-timer {
-    /* Glassmorphism effekti */
     background: var(--glass);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); /* Safari dəstəyi üçün */
+    -webkit-backdrop-filter: blur(15px); 
     border: 1px solid var(--glass-border);
     border-radius: 25px;
-    
     padding: 40px 25px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
-
 .meeting-timer h3 {
     font-family: 'Great Vibes', cursive;
     font-size: 3rem;
@@ -520,7 +437,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     margin-bottom: 5px;
     text-shadow: 0 0 12px rgba(255, 77, 109, 0.4);
 }
-
 .meeting-date-text {
     font-family: 'Poppins', sans-serif;
     font-size: 1.1rem;
@@ -529,30 +445,23 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     margin-bottom: 30px;
     display: block;
 }
-
-/* Taymer qutuları */
 .meeting-timer .timer-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
     margin: 25px 0;
 }
-
 .meeting-timer .time-box {
-    /* İç qutuların tünd şüşə effekti */
     background: rgba(0, 0, 0, 0.25);
     padding: 18px 10px;
     border-radius: 18px;
-    /* Sənin istədiyin o məşhur alt xətt */
     border-bottom: 3px solid var(--primary); 
     transition: all 0.3s ease;
 }
-
 .meeting-timer .time-box:hover {
     transform: translateY(-5px);
     background: rgba(0, 0, 0, 0.4);
 }
-
 .meeting-timer .time-box span {
     display: block;
     font-size: 2.2rem;
@@ -560,7 +469,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     color: var(--primary);
     margin-bottom: 3px;
 }
-
 .meeting-timer .time-box label {
     font-family: 'Poppins', sans-serif;
     font-size: 0.75rem;
@@ -569,8 +477,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     letter-spacing: 2px;
     opacity: 0.7;
 }
-
-/* Mobil cihazlar üçün kiçiltmə */
 @media (max-width: 500px) {
     .meeting-timer .timer-grid {
         gap: 8px;
@@ -582,7 +488,6 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
         font-size: 2.2rem;
     }
 }
-/* Şifrə Paneli Dizaynı */
 #password-panel {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
@@ -591,18 +496,15 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     border: 1px solid var(--glass-border);
     animation: fadeIn 0.5s ease;
 }
-
 #pass-input {
     transition: all 0.3s ease;
     font-family: 'Poppins', sans-serif;
 }
-
 #pass-input:focus {
     background: rgba(255, 255, 255, 0.15) !important;
     border-color: var(--primary) !important;
     box-shadow: 0 0 15px var(--primary-glow);
 }
-
 #verify-btn {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
@@ -611,18 +513,14 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px var(--primary-glow);
 }
-
 #verify-btn:hover {
     transform: scale(1.05);
-    background: #ff3358; /* Rəngi bir az tündləşdiririk */
+    background: #ff3358;
 }
-
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
-/* Səhv mesajı animasiyası */
 #error-msg {
     font-weight: 300;
     letter-spacing: 0.5px;
