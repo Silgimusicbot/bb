@@ -13,11 +13,6 @@ document.onkeydown = function(e) {
     if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
     if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
 };
-setInterval(() => {
-    if (window.outerHeight - window.innerHeight > 160 || window.outerWidth - window.innerWidth > 160) {
-        document.body.innerHTML = "Oğurluq etmək ayıbdır! 😊";
-    }
-}, 1000);
 const audio = document.getElementById('music-file');
 const playBtn = document.querySelector('.play-btn');
 const seekSlider = document.querySelector('.seek_slider');
