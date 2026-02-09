@@ -582,3 +582,48 @@ blockquote { font-style: italic; font-size: 1.1rem; margin-bottom: 8px; }
         font-size: 2.2rem;
     }
 }
+/* Şifrə Paneli Dizaynı */
+#password-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 30px;
+    border: 1px solid var(--glass-border);
+    animation: fadeIn 0.5s ease;
+}
+
+#pass-input {
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+#pass-input:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+#verify-btn {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px var(--primary-glow);
+}
+
+#verify-btn:hover {
+    transform: scale(1.05);
+    background: #ff3358; /* Rəngi bir az tündləşdiririk */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Səhv mesajı animasiyası */
+#error-msg {
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
