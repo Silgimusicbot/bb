@@ -33,22 +33,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 2. Giriş Düyməsi (Şifrə ilə Giriş)
-document.getElementById('enter-btn').addEventListener('click', () => {
-    const sfire = "030825"; // Sənin təyin etdiyin şifrə
-    const istifadeciGiris = prompt("Sayta daxil olmaq üçün düzgün şifrəni yaz!");
+const enterBtn = document.getElementById('enter-btn');
+const passPanel = document.getElementById('password-panel');
+const verifyBtn = document.getElementById('verify-btn');
+const passInput = document.getElementById('pass-input');
+const errorMsg = document.getElementById('error-msg');
 
-    if (istifadeciGiris === sfire) {
-        // Şifrə düzdürsə saytı aç
+// 1. "Toxun" düyməsinə basanda şifrə panelini göstər
+enterBtn.addEventListener('click', () => {
+    enterBtn.style.display = 'none'; // Düyməni gizlə
+    passPanel.style.display = 'flex'; // Paneli göstər
+    passInput.focus();
+});
+
+// 2. Şifrəni yoxla
+verifyBtn.addEventListener('click', () => {
+    const sfire = "030825";
+    
+    if (passInput.value === sfire) {
         document.getElementById('welcome-screen').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('main-content').classList.remove('hidden');
         }, 800);
         
-        // Şəkilləri GitHub-dan çək
         fetchImages();
         
-        // Musiqini başlat
         if (audio) {
             initVisualizer(audio);
             audio.play().then(() => {
@@ -56,14 +66,22 @@ document.getElementById('enter-btn').addEventListener('click', () => {
                 if(trackArt) trackArt.classList.add('playing');
                 const icon = document.querySelector('.play-btn i');
                 if(icon) icon.classList.replace('fa-play-circle', 'fa-pause-circle');
-            }).catch(e => console.log("Musiqi avtomatik başlatma bloklandı."));
+            }).catch(e => console.log("Musiqi gözləmədə..."));
         }
-    } else if (istifadeciGiris !== null) {
-        // Şifrə səhvdirsə xəbərdarlıq ver
-        alert("Kül başıva düz yaz");
+    } else {
+        errorMsg.style.display = 'block';
+        passInput.value = "";
+        // Titrəmə effekti
+        passInput.animate([
+            { transform: 'translateX(-5px)' }, { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }
+        ], { duration: 200 });
     }
 });
 
+// Enter düyməsi ilə də təsdiqləmək üçün
+passInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') verifyBtn.click();
+});
 // 3. Zaman Sayğacı Funksiyası
 function updateCounter() {
     const start = new Date(config.startDate).getTime();
